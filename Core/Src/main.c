@@ -90,6 +90,8 @@ int main(void)
   MX_CAN1_Init();
   MX_TIM14_Init();
   MX_USB_DEVICE_Init();
+  MX_TIM2_Init();
+  MX_TIM8_Init();
   /* USER CODE BEGIN 2 */
   Init();
 

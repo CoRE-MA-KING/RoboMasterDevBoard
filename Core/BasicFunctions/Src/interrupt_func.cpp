@@ -11,6 +11,7 @@
 //#include "usb_device.h"
 #include "usbd_cdc_if.h"
 #include "motor.h"
+#include "encorder.h"
 
 char s[128];
 
@@ -25,7 +26,7 @@ void Interrupt1ms(){
 	int deg2=(GetC620Potion_rad(2)*180/3.14);
 	int current1=(int)GetC620Current_mA(1);
 	int current2=(int)GetC620Current_mA(2);
-	int n=sprintf(s,"%d,%d,%d,%d\r\n",deg1,current1,deg2,current2);
+	int n=sprintf(s,"%d,%d,%d,%d\r\n",deg1,current1,Encorder1Pulse(),Encorder2Pulse());
 	CDC_Transmit_FS((uint8_t*)s, n);
 }
 

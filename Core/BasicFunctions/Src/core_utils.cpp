@@ -15,7 +15,7 @@
 #include "usbd_cdc_if.h"
 
 #include "motor.h"
-
+#include "encorder.h"
 void Init(){
 	  HAL_GPIO_WritePin(LED1_GPIO_Port, LED1_Pin, GPIO_PIN_SET); HAL_Delay(100);
 	  HAL_GPIO_WritePin(LED2_GPIO_Port, LED2_Pin, GPIO_PIN_SET); HAL_Delay(100);
@@ -31,6 +31,8 @@ void Init(){
 	  CDC_Transmit_FS((uint8_t*)s, n);
 
 	  C620Init();
+	  Encorder1Init();
+	  Encorder2Init();
 	  HAL_TIM_Base_Start_IT(&htim14);
 }
 void Loop(){
