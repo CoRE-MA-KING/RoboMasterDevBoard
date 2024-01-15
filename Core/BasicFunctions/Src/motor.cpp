@@ -7,6 +7,7 @@
 
 #include "motor.h"
 #include "can.h"
+#include "tim.h"
 
 uint16_t current_data[8];
 
@@ -106,5 +107,30 @@ void C620Update(){
 	HAL_CAN_AddTxMessage(&hcan1, &TxHeadrt, TxData, &TxMailbox);
 }
 
+
+void SabertoothDualInit(){
+    __HAL_TIM_SET_COMPARE(&htim4, TIM_CHANNEL_1, 1500);
+    __HAL_TIM_SET_COMPARE(&htim4, TIM_CHANNEL_2, 1500);
+    HAL_TIM_PWM_Start(&htim4, TIM_CHANNEL_1);
+    HAL_TIM_PWM_Start(&htim4, TIM_CHANNEL_2);
+
+}
+float supply_voltage_V=24;
+
+void SabertoothDualSetVoltage(int ch, float Voltage_V){
+	if(Voltage_V> supply_voltage_V)Voltage_V = supply_voltage_V;
+	if(Voltage_V<-supply_voltage_V)Voltage_V =-supply_voltage_V;
+
+	switch(ch){
+	case 1:
+	    __HAL_TIM_SET_COMPARE(&htim4, TIM_CHANNEL_1, 1500+500*Voltage_V/supply_voltage_V);
+	    break;
+	case 2:
+	    __HAL_TIM_SET_COMPARE(&htim4, TIM_CHANNEL_2, 1500+500*Voltage_V/supply_voltage_V);
+	    break;
+	}
+
+
+}
 
 

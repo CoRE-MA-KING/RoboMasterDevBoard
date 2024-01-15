@@ -16,6 +16,7 @@ float GetC620Temp_degC(int id);
 void C620Init();
 void C620Update();
 
-
+void SabertoothDualInit();
+void SabertoothDualSetVoltage(int ch, float Voltage_V);
 
 #endif /* MOTOR_H_ */

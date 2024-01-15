@@ -31,6 +31,7 @@ void Init(){
 	  CDC_Transmit_FS((uint8_t*)s, n);
 
 	  C620Init();
+	  SabertoothDualInit();
 	  Encorder1Init();
 	  Encorder2Init();
 	  HAL_TIM_Base_Start_IT(&htim14);
