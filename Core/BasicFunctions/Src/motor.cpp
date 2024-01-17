@@ -23,11 +23,11 @@ const float max_position_value_rad=3.141592;
 const int max_position_data=8191;
 void SetC620Current_mA(int id,float I_mA){
 	if(0<id && id <=8){
-		current_data[id-1]=I_mA/max_current_value_mA *max_current_data;
+		current_data[id-1]=(int16_t)(I_mA/max_current_value_mA *max_current_data);
 	}
 }
 float GetC620Current_mA(int id){
-	return (float)current_raw[id-1]/max_current_data*max_current_value_mA;
+	return (float)(int16_t)current_raw[id-1]/max_current_data*max_current_value_mA;
 }
 
 float GetC620Potion_rad(int id){
@@ -35,7 +35,7 @@ float GetC620Potion_rad(int id){
 
 }
 float GetC620Velocity_rad_s(int id){
-	return (float)velocity_raw[id-1]*3.141592/60.0;
+	return (float)(int16_t)velocity_raw[id-1]*3.141592/60.0;
 
 }
 float GetC620Temp_degC(int id){
