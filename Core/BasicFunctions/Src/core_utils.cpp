@@ -14,8 +14,13 @@
 #include "usb_device.h"
 #include "usbd_cdc_if.h"
 
+#include "usart.h"
+
 #include "motor.h"
 #include "encorder.h"
+
+
+
 void Init(){
 	  HAL_GPIO_WritePin(LED1_GPIO_Port, LED1_Pin, GPIO_PIN_SET); HAL_Delay(100);
 	  HAL_GPIO_WritePin(LED2_GPIO_Port, LED2_Pin, GPIO_PIN_SET); HAL_Delay(100);
@@ -36,7 +41,10 @@ void Init(){
 	  Encorder2Init();
 	  HAL_TIM_Base_Start_IT(&htim14);
 }
+
+
 void Loop(){
+
 
 	  HAL_GPIO_TogglePin(LED2_GPIO_Port, LED2_Pin); HAL_Delay(100);
 //	  HAL_GPIO_TogglePin(LED3_GPIO_Port, LED3_Pin); HAL_Delay(100);

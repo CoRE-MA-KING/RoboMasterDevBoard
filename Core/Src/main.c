@@ -19,7 +19,9 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "can.h"
+#include "dma.h"
 #include "tim.h"
+#include "usart.h"
 #include "usb_device.h"
 #include "gpio.h"
 
@@ -56,7 +58,20 @@ void SystemClock_Config(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+int _write(int file, char *ptr, int len)
+ {
+ //int DataIdx;
 
+ HAL_UART_Transmit_DMA(&huart6, (uint8_t *)ptr, len);
+/*
+ for (DataIdx = 0; DataIdx < len; DataIdx++)
+ {
+	 //__io_putchar(*ptr++);
+	 ITM_SendChar(*ptr++);
+ }
+ */
+ return len;
+ }
 /* USER CODE END 0 */
 
 /**
@@ -87,12 +102,14 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
+  MX_DMA_Init();
   MX_CAN1_Init();
   MX_TIM14_Init();
   MX_USB_DEVICE_Init();
   MX_TIM2_Init();
   MX_TIM8_Init();
   MX_TIM4_Init();
+  MX_USART6_UART_Init();
   /* USER CODE BEGIN 2 */
   Init();
 
