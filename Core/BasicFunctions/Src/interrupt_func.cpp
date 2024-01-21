@@ -22,6 +22,9 @@ int dir=1;
 void Interrupt1ms(){
 	HAL_GPIO_TogglePin(LED1_GPIO_Port, LED1_Pin);
 
+	roller_enc_L.Update();
+	roller_enc_R.Update();
+
 	float r=160.0/2.0;
 
 	float vel1=motor1.GetVelocity_rad_s()*r;
@@ -57,13 +60,15 @@ void Interrupt1ms(){
 
 	can1_bus.SendData();
 
+	static int pulseL=0;
+	pulseL+=roller_enc_L.GetPulse();
 	//	int n=sprintf(s,"%d,%d,%d,%d,%d\r\n",(int)(v*1000),deg1,current1,Encorder1Pulse(),Encorder2Pulse());
 //	int n=sprintf(s,"%d,%d,%d,%d,%d,%d,%d,%d\r\n",deg1,deg2,deg3,deg4,current1,current2,current3,current4);
 //	int n=sprintf(s,"%d,%d,%d,%d,%d,%d,%d,%d\r\n",(int)(vel1),(int)(vel2),(int)(vel3),(int)(vel4),current1,current2,current3,current4);
 //	CDC_Transmit_FS((uint8_t*)s, n);
-	  printf("%d,%d,%d,%d,%d,%d,%d,%d\r\n",(int)(vel1),(int)(vel2),(int)(vel3),(int)(vel4),current1,current2,current3,current4);
+//	  printf("%d,%d,%d,%d,%d,%d,%d,%d\r\n",(int)(vel1),(int)(vel2),(int)(vel3),(int)(vel4),current1,current2,current3,current4);
 //	  printf("%d,%d,%d,%d,\r\n",(int)(vel1),current1,0,0);
-
+	printf("%4d,%3d,%3d\r\n",pulseL,roller_enc_L.GetPulse(),roller_enc_R.GetPulse());
 }
 
 

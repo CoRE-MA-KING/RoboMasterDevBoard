@@ -8,22 +8,51 @@
 #include "encorder.h"
 #include "tim.h"
 
-static const int16_t ENC_ZERO=0x7FFF;
+Encorder::Encorder(int _ch, int _ppr,int _period_ms,int _radius_mm,int _dir):
+ch(_ch),ppr(_ppr),period_ms(_period_ms),radius_mm(_radius_mm),dir(_dir),pulse(0)
+{}
+void Encorder::Init(){
+	switch(ch){
+	case 2:
+		TIM2->CNT=ENC_ZERO;
+		HAL_TIM_Encoder_Start(&htim2,TIM_CHANNEL_ALL);
+		break;
+	case 8:
+		TIM8->CNT=ENC_ZERO;
+		HAL_TIM_Encoder_Start(&htim8,TIM_CHANNEL_ALL);
+		break;
+	default:
+		break;
+	}
 
-void Encorder1Init(){
-	TIM2->CNT=ENC_ZERO;
-	HAL_TIM_Encoder_Start(&htim2,TIM_CHANNEL_ALL);
 }
-void Encorder2Init(){
-	TIM8->CNT=ENC_ZERO;
-	HAL_TIM_Encoder_Start(&htim8,TIM_CHANNEL_ALL);
+void Encorder::Update(){
+	switch(ch){
+	case 2:
+		pulse=TIM2->CNT-ENC_ZERO;
+		TIM2->CNT=ENC_ZERO;
+		break;
+	case 8:
+		pulse=TIM8->CNT-ENC_ZERO;
+		TIM8->CNT=ENC_ZERO;
+		break;
+	default:
+		break;
+	}
 
 }
+int Encorder::GetPulse(){
+	return pulse;
 
-int Encorder1Pulse(){
-	return TIM2->CNT;
 }
-int Encorder2Pulse(){
-	return TIM8->CNT;
+float Encorder::GetVelocity_rpm(){
+	return (float)pulse/ppr/period_ms*60000;
 
+}
+float Encorder::GetVelocity_rad_s(){
+	return (float)pulse/ppr*(2*3.1415)/period_ms;
+}
+
+float Encorder::GetVelicty_mm_s(){
+	return GetVelocity_rad_s()*radius_mm;
 }

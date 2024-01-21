@@ -50,8 +50,8 @@ void Init(){
 	rollerL.Init();
 	rollerR.Init();
 
-	Encorder1Init();
-	Encorder2Init();
+	roller_enc_R.Init();
+	roller_enc_L.Init();
 	HAL_TIM_Base_Start_IT(&htim14);
 
 }
