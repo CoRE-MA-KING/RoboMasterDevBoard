@@ -35,7 +35,8 @@ void Interrupt1ms(){
 	v+=dir*0.01;
 	if(v>3){dir=-1;}
 	if(v<-3){dir=1;}
-	SabertoothDualSetVoltage(1,v);
+	rollerL.SetVoltage_V(v);
+	rollerR.SetVoltage_V(v);
 
 
 	int deg1=(motor1.GetPotion_rad()*180/3.14);

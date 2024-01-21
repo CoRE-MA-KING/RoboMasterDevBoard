@@ -47,8 +47,9 @@ void Init(){
 	motor4.Init();
 	can1_bus.Start();
 
-//	C620Init();
-	SabertoothDualInit();
+	rollerL.Init();
+	rollerR.Init();
+
 	Encorder1Init();
 	Encorder2Init();
 	HAL_TIM_Base_Start_IT(&htim14);

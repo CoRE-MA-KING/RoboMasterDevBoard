@@ -16,6 +16,7 @@ protected:
 	int dir;
 public:
 	MotorBase(int _dir);
+	void Init();
 };
 
 class CanInterface{
@@ -54,7 +55,15 @@ public:
 	float GetTemp_degC();
 };
 
-void SabertoothDualInit();
-void SabertoothDualSetVoltage(int ch, float Voltage_V);
+class SabertoothDual: public MotorBase{
+private:
+	float supply_voltage_V=24;
+
+	int ch;
+public:
+	SabertoothDual(int _ch, int _dir);
+	void Init();
+	void SetVoltage_V(float Voltage_V);
+};
 
 #endif /* MOTOR_H_ */

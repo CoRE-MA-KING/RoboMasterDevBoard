@@ -16,4 +16,7 @@ extern C620 motor2;
 extern C620 motor3;
 extern C620 motor4;
 
+extern SabertoothDual rollerR;
+extern SabertoothDual rollerL;
+
 #endif /* MACHINE_VARIABLE_H_ */

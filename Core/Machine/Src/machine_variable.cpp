@@ -14,5 +14,5 @@ C620 motor2(&can1_bus,2,-1);
 C620 motor3(&can1_bus,3,1);
 C620 motor4(&can1_bus,4,1);
 
-//Sabertooth RollerL(1,1);
-//Sabertooth RollerR(2,-1);
+SabertoothDual rollerL(1,1);
+SabertoothDual rollerR(2,-1);

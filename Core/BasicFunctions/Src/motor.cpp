@@ -89,19 +89,31 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan){
 	}
 }
 
-
-void SabertoothDualInit(){
-    __HAL_TIM_SET_COMPARE(&htim4, TIM_CHANNEL_1, 1500);
-    __HAL_TIM_SET_COMPARE(&htim4, TIM_CHANNEL_2, 1500);
-    HAL_TIM_PWM_Start(&htim4, TIM_CHANNEL_1);
-    HAL_TIM_PWM_Start(&htim4, TIM_CHANNEL_2);
+SabertoothDual::SabertoothDual(int _ch, int _dir):
+MotorBase(dir),ch(_ch)
+{
 
 }
-float supply_voltage_V=24;
 
-void SabertoothDualSetVoltage(int ch, float Voltage_V){
+void SabertoothDual::Init(){
+	switch(ch){
+	case 1:
+	    __HAL_TIM_SET_COMPARE(&htim4, TIM_CHANNEL_1, 1500);
+	    HAL_TIM_PWM_Start(&htim4, TIM_CHANNEL_1);
+		break;
+	case 2:
+	    __HAL_TIM_SET_COMPARE(&htim4, TIM_CHANNEL_2, 1500);
+	    HAL_TIM_PWM_Start(&htim4, TIM_CHANNEL_2);
+		break;
+	default:
+		break;
+	}
+}
+void SabertoothDual::SetVoltage_V(float Voltage_V){
 	if(Voltage_V> supply_voltage_V)Voltage_V = supply_voltage_V;
 	if(Voltage_V<-supply_voltage_V)Voltage_V =-supply_voltage_V;
+
+	supply_voltage_V*=dir;
 
 	switch(ch){
 	case 1:
@@ -111,8 +123,6 @@ void SabertoothDualSetVoltage(int ch, float Voltage_V){
 	    __HAL_TIM_SET_COMPARE(&htim4, TIM_CHANNEL_2, 1500+500*Voltage_V/supply_voltage_V);
 	    break;
 	}
-
-
 }
 
 
