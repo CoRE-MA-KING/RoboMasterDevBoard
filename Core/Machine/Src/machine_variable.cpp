@@ -27,3 +27,7 @@ SabertoothDual rollerR(2,-1);
 
 Encorder roller_enc_R(2,1024*2,1,1,1);
 Encorder roller_enc_L(8,1024*2,1,1,1);
+
+uint8_t rxed_byte_data;
+UsartBuffer ub;
+CoreWirelessControlRx cwcr(&ub);

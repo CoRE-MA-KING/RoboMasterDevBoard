@@ -11,6 +11,7 @@
 #include "motor.h"
 #include "encorder.h"
 #include "controller.h"
+#include "core_wireless_control_rx.hpp"
 
 extern CanInterface can1_bus;
 extern C620 motor1;
@@ -28,4 +29,9 @@ extern SabertoothDual rollerL;
 
 extern Encorder roller_enc_R;
 extern Encorder roller_enc_L;
+
+extern uint8_t rxed_byte_data;
+extern UsartBuffer ub;
+extern CoreWirelessControlRx cwcr;
+
 #endif /* MACHINE_VARIABLE_H_ */

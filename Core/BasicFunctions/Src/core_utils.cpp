@@ -22,6 +22,8 @@
 #include "machine_variable.h"
 
 
+
+
 void Init(){
 	HAL_GPIO_WritePin(LED1_GPIO_Port, LED1_Pin, GPIO_PIN_SET); HAL_Delay(100);
 	HAL_GPIO_WritePin(LED2_GPIO_Port, LED2_Pin, GPIO_PIN_SET); HAL_Delay(100);
@@ -52,6 +54,9 @@ void Init(){
 
 	roller_enc_R.Init();
 	roller_enc_L.Init();
+
+	HAL_UART_Receive_IT(&huart8, &rxed_byte_data, 1);
+
 	HAL_TIM_Base_Start_IT(&htim14);
 
 }
@@ -69,4 +74,14 @@ void Loop(){
 //	  HAL_GPIO_TogglePin(LED8_GPIO_Port, LED8_Pin); HAL_Delay(100);
 }
 
-
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
+{
+  if (huart->Instance == UART8)
+  {
+	  bool res = ub.enqueue(rxed_byte_data);
+	  if(!res){
+		  printf("Failed to enqueue\r\n");
+	  }
+	  HAL_UART_Receive_IT(&huart8, &rxed_byte_data, 1);
+  }
+}
