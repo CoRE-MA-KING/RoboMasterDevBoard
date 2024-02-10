@@ -57,6 +57,8 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
+#define ESW_Pin GPIO_PIN_6
+#define ESW_GPIO_Port GPIOE
 #define POWER1_CTRL_Pin GPIO_PIN_2
 #define POWER1_CTRL_GPIO_Port GPIOH
 #define POWER2_CTRL_Pin GPIO_PIN_3
@@ -81,6 +83,8 @@ void Error_Handler(void);
 #define LED2_GPIO_Port GPIOG
 #define LED1_Pin GPIO_PIN_1
 #define LED1_GPIO_Port GPIOG
+#define RELAY_Pin GPIO_PIN_12
+#define RELAY_GPIO_Port GPIOE
 
 /* USER CODE BEGIN Private defines */
 

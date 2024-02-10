@@ -26,11 +26,14 @@ void Interrupt1ms(){
 
 	roller_enc_L.Update();
 	roller_enc_R.Update();
-
+	static int x=0;
+	static int y=0;
 	if(cwcr.parse() == true){
-		printf("!-- %d, %d, %d, %d, %d\r\n"
-			, cwcr.axis(0), cwcr.axis(1), cwcr.axis(2), cwcr.axis(3), cwcr.axis(4)
-		);
+		x=cwcr.axis(0)*50;
+		y=cwcr.axis(2)*50;
+//		printf("!-- %d, %d, %d, %d, %d\r\n"
+//			, cwcr.axis(0), cwcr.axis(1), cwcr.axis(2), cwcr.axis(3), cwcr.axis(4)
+//		);
 //		printf("!--\r\n%d, %d, %d, %d, %d\r\n%d, %d, %d, %d\r\n%d, %d, %d, %d\r\n%d, %d, %d, %d\r\n%d, %d, %d, %d\r\n"
 //			, cwcr.axis(0), cwcr.axis(1), cwcr.axis(2), cwcr.axis(3), cwcr.axis(4)
 //			, cwcr.button(0), cwcr.button(1), cwcr.button(2), cwcr.button(3)
@@ -46,7 +49,7 @@ void Interrupt1ms(){
 	if(v>3){dir=-1;}
 	if(v<-3){dir=1;}
 	rollerL.SetVoltage_V(v);
-	rollerR.SetVoltage_V(v);
+	rollerR.SetVoltage_V(x*1.0/2000.0);
 
 	///////////////
 
@@ -57,10 +60,10 @@ void Interrupt1ms(){
 	float vel3=motor3.GetVelocity_rad_s()*wheel_r_mm;
 	float vel4=motor4.GetVelocity_rad_s()*wheel_r_mm;
 
-	float v_ref=1000;
+	float v_ref=x;
 
 	m1_pid.SetReference(v_ref);
-	m2_pid.SetReference(0);
+	m2_pid.SetReference(y);
 	m3_pid.SetReference(0);
 	m4_pid.SetReference(0);
 
@@ -93,7 +96,8 @@ void Interrupt1ms(){
 //	int n=sprintf(s,"%d,%d,%d,%d,%d,%d,%d,%d\r\n",deg1,deg2,deg3,deg4,current1,current2,current3,current4);
 //	int n=sprintf(s,"%d,%d,%d,%d,%d,%d,%d,%d\r\n",(int)(vel1),(int)(vel2),(int)(vel3),(int)(vel4),current1,current2,current3,current4);
 //	CDC_Transmit_FS((uint8_t*)s, n);
-//	  printf("%d,%d,%d,%d,%d,%d,%d,%d\r\n",(int)(vel1),(int)(vel2),(int)(vel3),(int)(vel4),current1,current2,current3,current4);
+	  printf("%d,%d,%d,%d,%d\r\n",x,y,(int)(v*1000),current1,HAL_GPIO_ReadPin(ESW_GPIO_Port, ESW_Pin));
+//	  printf("%d,%d,%d,%d,%d,%d,%d,%d,%d,%d\r\n",x,y,(int)(vel1),(int)(vel2),(int)(vel3),(int)(vel4),current1,current2,current3,current4);
 //	  printf("%d,%d,%d,%d,\r\n",(int)(vel1),current1,0,0);
 //	printf("%4d,%3d,%3d\r\n",pulseL,roller_enc_L.GetPulse(),roller_enc_R.GetPulse());
 }
