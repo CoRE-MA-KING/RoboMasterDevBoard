@@ -90,7 +90,7 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan){
 }
 
 SabertoothDual::SabertoothDual(int _ch, int _dir):
-MotorBase(dir),ch(_ch)
+MotorBase(_dir),ch(_ch)
 {
 
 }
@@ -113,7 +113,7 @@ void SabertoothDual::SetVoltage_V(float Voltage_V){
 	if(Voltage_V> supply_voltage_V)Voltage_V = supply_voltage_V;
 	if(Voltage_V<-supply_voltage_V)Voltage_V =-supply_voltage_V;
 
-	supply_voltage_V*=dir;
+	Voltage_V*=dir;
 
 	switch(ch){
 	case 1:
