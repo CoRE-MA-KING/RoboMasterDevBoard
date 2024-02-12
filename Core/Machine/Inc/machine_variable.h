@@ -38,4 +38,5 @@ extern uint8_t rxed_byte_data;
 extern UsartBuffer ub;
 extern CoreWirelessControlRx cwcr;
 
+extern int ESW;
 #endif /* MACHINE_VARIABLE_H_ */

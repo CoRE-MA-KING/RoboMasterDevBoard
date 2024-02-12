@@ -35,3 +35,5 @@ Encorder roller_enc_L(8,1024*2,control_period_ms,roller_radius_mm,-1);
 uint8_t rxed_byte_data;
 UsartBuffer ub;
 CoreWirelessControlRx cwcr(&ub);
+
+int ESW;

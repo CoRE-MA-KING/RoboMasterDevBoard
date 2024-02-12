@@ -17,11 +17,18 @@
 #include "machine_constant.hpp"
 #include "core_wireless_control_rx.hpp"
 
+#include "buzzer.h"
+
 char s[128];
 
 float v=0;
 int dir=1;
 void Interrupt1ms(){
+	if(ESW!=HAL_GPIO_ReadPin(ESW_GPIO_Port, ESW_Pin)){
+		HAL_GPIO_WritePin(RELAY_GPIO_Port, RELAY_Pin, GPIO_PIN_RESET);
+		setBuzzerFrequency(500);
+		return;
+	}
 	HAL_GPIO_TogglePin(LED1_GPIO_Port, LED1_Pin);
 
 	roller_enc_L.Update();
@@ -36,7 +43,7 @@ void Interrupt1ms(){
 		if(x<0)x=0;
 		if(y<0)y=0;
 		if(cwcr.button(1)==1){
-			loading_motor_ref=2000;
+			loading_motor_ref=5000;
 		}
 //		printf("!-- %d, %d, %d, %d, %d\r\n"
 //			, cwcr.axis(0), cwcr.axis(1), cwcr.axis(2), cwcr.axis(3), cwcr.axis(4)
