@@ -14,6 +14,7 @@
 #include "core_wireless_control_rx.hpp"
 
 extern CanInterface can1_bus;
+extern CanInterface can2_bus;
 extern C620 motor1;
 extern C620 motor2;
 extern C620 motor3;

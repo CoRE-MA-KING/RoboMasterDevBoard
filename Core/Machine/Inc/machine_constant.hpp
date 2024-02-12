@@ -8,7 +8,7 @@
 #ifndef MACHINE_CONSTANT_HPP_
 #define MACHINE_CONSTANT_HPP_
 
-const float wheel_r_mm = 152;
+const float wheel_r_mm = 152/2.0;
 const float machine_width_mm = 630;
 const float machine_length_mm = 540;
 

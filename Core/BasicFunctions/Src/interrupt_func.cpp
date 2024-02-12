@@ -58,7 +58,6 @@ void Interrupt1ms(){
 	}
 
 
-
 	v+=dir*0.01;
 	if(v>3){dir=-1;}
 	if(v<-3){dir=1;}
@@ -67,17 +66,14 @@ void Interrupt1ms(){
 
 	///////////////
 
-	float r=160.0/2.0;
-
 	float vel1=motor1.GetVelocity_rad_s()*wheel_r_mm;
 	float vel2=motor2.GetVelocity_rad_s()*wheel_r_mm;
 	float vel3=motor3.GetVelocity_rad_s()*wheel_r_mm;
 	float vel4=motor4.GetVelocity_rad_s()*wheel_r_mm;
 
-	float v_ref=-5000;
 
-	m1_pid.SetReference(v_ref);
-	m2_pid.SetReference(y);
+	m1_pid.SetReference(0);
+	m2_pid.SetReference(500);
 	m3_pid.SetReference(0);
 	m4_pid.SetReference(0);
 
@@ -96,7 +92,7 @@ void Interrupt1ms(){
 	float target_current2 = m2_pid.Update(vel2);
 	float target_current3 = m3_pid.Update(vel3);
 	float target_current4 = m4_pid.Update(vel4);
-
+	target_current2=300;
 	motor1.SetCurrent_mA(target_current1);
 	motor2.SetCurrent_mA(target_current2);
 	motor3.SetCurrent_mA(target_current3);
@@ -108,23 +104,26 @@ void Interrupt1ms(){
 		loading_motor_ref=0;
 	}
 	pre_hoto1=photo1;
+
 	int loading_current_mA = loading_motor.GetCurrent_mA();
+	float v_loading_rpm=loading_motor.GetVelocity_rad_s()/(2*3.14)*60;
 
 	loading_motor_pid.SetReference(loading_motor_ref);
 
-	float v_loading_rpm=loading_motor.GetVelocity_rad_s()/(2*3.14)*60;
 	loading_motor_pid.Update(v_loading_rpm);
 
 	float target_current_loading = loading_motor_pid.Update(v_loading_rpm);
 	loading_motor.SetCurrent_mA(target_current_loading);
 
 	can1_bus.SendData();
+	can2_bus.SendData();
 
 	//	int n=sprintf(s,"%d,%d,%d,%d,%d\r\n",(int)(v*1000),deg1,current1,Encorder1Pulse(),Encorder2Pulse());
 //	int n=sprintf(s,"%d,%d,%d,%d,%d,%d,%d,%d\r\n",deg1,deg2,deg3,deg4,current1,current2,current3,current4);
-//	int n=sprintf(s,"%d,%d,%d,%d,%d,%d,%d,%d\r\n",(int)(vel1),(int)(vel2),(int)(vel3),(int)(vel4),current1,current2,current3,current4);
+	printf("%d,%d,%d\r\n",(int)(vel2),current2,(int)target_current2);
 //	CDC_Transmit_FS((uint8_t*)s, n);
-	  printf("%d,%d,%d,%d,%d,%d\r\n",x,y,(int)(roller_enc_L.GetVelicty_mm_s()),(int)(roller_enc_R.GetVelicty_mm_s()),(int)target_current_loading,(int)v_loading_rpm,loading_current_mA);
+
+//	printf("%d,%d,%d,%d,%d,%d\r\n",x,y,(int)(roller_enc_L.GetVelicty_mm_s()),(int)(roller_enc_R.GetVelicty_mm_s()),(int)target_current_loading,(int)v_loading_rpm,loading_current_mA);
 //	  printf("%d,%d,%d,%d,%d,%d,%d,%d,%d,%d\r\n",x,y,(int)(vel1),(int)(vel2),(int)(vel3),(int)(vel4),current1,current2,current3,current4);
 //	  printf("%d,%d,%d,%d,\r\n",(int)(vel1),current1,0,0);
 //	printf("%4d,%3d,%3d\r\n",pulseL,roller_enc_L.GetPulse(),roller_enc_R.GetPulse());

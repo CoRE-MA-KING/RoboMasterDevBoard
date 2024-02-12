@@ -42,6 +42,7 @@ private:
 	const float max_current_value_mA=20000;
 	const float max_position_value_rad=3.141592;
 	const int max_position_data=8191;
+	const float gera_ratio=1;
 
 	CanInterface* can_bus;
 	int id;
@@ -61,6 +62,7 @@ private:
 	const float max_current_value_mA=20000;
 	const float max_position_value_rad=3.141592;
 	const int max_position_data=8191;
+	const float gera_ratio=3591.0/187.0;
 
 	CanInterface* can_bus;
 	int id;

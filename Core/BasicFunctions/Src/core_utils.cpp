@@ -50,7 +50,7 @@ void Init(){
 
 	HAL_Delay(2000);
 	HAL_TIM_PWM_Start(&htim12, TIM_CHANNEL_1);
-	for(int f=300;f<1000;f+=10){
+	for(int f=400;f<800;f+=10){
 		setBuzzerFrequency(f);
 		HAL_Delay(5);
 	}
@@ -61,6 +61,7 @@ void Init(){
 	motor3.Init();
 	motor4.Init();
 	can1_bus.Start();
+	can2_bus.Start();
 
 	roller_enc_R.Init();
 	roller_enc_L.Init();

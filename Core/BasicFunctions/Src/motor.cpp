@@ -70,23 +70,36 @@ float DJI::GetPotion_rad(){
 	return (float)can_bus->position_raw[id-1]/max_position_data*max_position_value_rad;
 }
 float DJI::GetVelocity_rad_s(){
-	return dir * (float)(int16_t)can_bus->velocity_raw[id-1]*3.141592/60.0;
+	return dir * (float)(int16_t)can_bus->velocity_raw[id-1]*3.141592/60.0/gera_ratio;
 }
 float DJI::GetTemp_degC(){
 	return can_bus->temp_raw[id-1];
 }
 
 void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan){
-	CAN_RxHeaderTypeDef RxHeader;
-	uint8_t RxData[8];
-
-	if (HAL_CAN_GetRxMessage(&hcan1, CAN_RX_FIFO0, &RxHeader, RxData) == HAL_OK){
-		int id = RxHeader.StdId & 0x00F; //C620 ID : 0x200| id
-		can1_bus.position_raw[id-1]  =((uint16_t)RxData[0])<<8 | (uint16_t)RxData[1];
-		can1_bus.velocity_raw[id-1]  =((uint16_t)RxData[2])<<8 | (uint16_t)RxData[3];
-		can1_bus.current_raw[id-1]	=((uint16_t)RxData[4])<<8 | (uint16_t)RxData[5];
-		can1_bus.temp_raw[id-1]   	=RxData[6];
+	if(hcan==&hcan1){
+		CAN_RxHeaderTypeDef RxHeader;
+		uint8_t RxData[8];
+		if (HAL_CAN_GetRxMessage(&hcan1, CAN_RX_FIFO0, &RxHeader, RxData) == HAL_OK){
+			int id = RxHeader.StdId & 0x00F; //C620 ID : 0x200| id
+			can1_bus.position_raw[id-1]  =((uint16_t)RxData[0])<<8 | (uint16_t)RxData[1];
+			can1_bus.velocity_raw[id-1]  =((uint16_t)RxData[2])<<8 | (uint16_t)RxData[3];
+			can1_bus.current_raw[id-1]	=((uint16_t)RxData[4])<<8 | (uint16_t)RxData[5];
+			can1_bus.temp_raw[id-1]   	=RxData[6];
+		}
 	}
+	if(hcan==&hcan2){
+		CAN_RxHeaderTypeDef RxHeader;
+		uint8_t RxData[8];
+		if (HAL_CAN_GetRxMessage(&hcan2, CAN_RX_FIFO0, &RxHeader, RxData) == HAL_OK){
+			int id = RxHeader.StdId & 0x00F; //C620 ID : 0x200| id
+			can2_bus.position_raw[id-1]  =((uint16_t)RxData[0])<<8 | (uint16_t)RxData[1];
+			can2_bus.velocity_raw[id-1]  =((uint16_t)RxData[2])<<8 | (uint16_t)RxData[3];
+			can2_bus.current_raw[id-1]	=((uint16_t)RxData[4])<<8 | (uint16_t)RxData[5];
+			can2_bus.temp_raw[id-1]   	=RxData[6];
+		}
+	}
+
 }
 
 SabertoothDual::SabertoothDual(int _ch, int _dir):
