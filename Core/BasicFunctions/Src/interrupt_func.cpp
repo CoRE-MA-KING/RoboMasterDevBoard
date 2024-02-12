@@ -19,10 +19,6 @@
 
 #include "buzzer.h"
 
-char s[128];
-
-float v=0;
-int dir=1;
 void Interrupt1ms(){
 	if(ESW!=HAL_GPIO_ReadPin(ESW_GPIO_Port, ESW_Pin)){
 		HAL_GPIO_WritePin(RELAY_GPIO_Port, RELAY_Pin, GPIO_PIN_RESET);
@@ -57,19 +53,15 @@ void Interrupt1ms(){
 //		);
 	}
 
-
-	v+=dir*0.01;
-	if(v>3){dir=-1;}
-	if(v<-3){dir=1;}
 	rollerL.SetVoltage_V(y*6.0/2000.0);
 	rollerR.SetVoltage_V(x*6.0/2000.0);
 
 	///////////////
 
-	float vel1=motor1.GetVelocity_rad_s()*wheel_r_mm;
-	float vel2=motor2.GetVelocity_rad_s()*wheel_r_mm;
-	float vel3=motor3.GetVelocity_rad_s()*wheel_r_mm;
-	float vel4=motor4.GetVelocity_rad_s()*wheel_r_mm;
+	float vel1=motor1.GetVelocity_mm_s();
+	float vel2=motor2.GetVelocity_mm_s();
+	float vel3=motor3.GetVelocity_mm_s();
+	float vel4=motor4.GetVelocity_mm_s();
 
 
 	m1_pid.SetReference(0);
@@ -77,12 +69,12 @@ void Interrupt1ms(){
 	m3_pid.SetReference(0);
 	m4_pid.SetReference(0);
 
-
+/*
 	int deg1=(motor1.GetPotion_rad()*180/3.14);
 	int deg2=(motor2.GetPotion_rad()*180/3.14);
 	int deg3=(motor3.GetPotion_rad()*180/3.14);
 	int deg4=(motor4.GetPotion_rad()*180/3.14);
-
+*/
 	int current1=(int)motor1.GetCurrent_mA();
 	int current2=(int)motor2.GetCurrent_mA();
 	int current3=(int)motor3.GetCurrent_mA();
@@ -98,6 +90,7 @@ void Interrupt1ms(){
 	motor3.SetCurrent_mA(target_current3);
 	motor4.SetCurrent_mA(target_current4);
 
+
 	int photo1=HAL_GPIO_ReadPin(PHOTO_SENS1_GPIO_Port, PHOTO_SENS1_Pin);
 	static int pre_hoto1;
 	if(photo1==1 && pre_hoto1==0){
@@ -109,11 +102,11 @@ void Interrupt1ms(){
 	float v_loading_rpm=loading_motor.GetVelocity_rad_s()/(2*3.14)*60;
 
 	loading_motor_pid.SetReference(loading_motor_ref);
-
 	loading_motor_pid.Update(v_loading_rpm);
 
 	float target_current_loading = loading_motor_pid.Update(v_loading_rpm);
 	loading_motor.SetCurrent_mA(target_current_loading);
+
 
 	can1_bus.SendData();
 	can2_bus.SendData();

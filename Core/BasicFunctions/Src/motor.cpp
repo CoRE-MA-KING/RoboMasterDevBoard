@@ -39,7 +39,7 @@ void CanInterface::SendData(){
 	HAL_CAN_AddTxMessage(hcanx, &TxHeadrt, TxData, &TxMailbox);
 }
 
-DJI::DJI(CanInterface* _can_bus,int _id,int _dir):MotorBase(_dir),can_bus(_can_bus),id(_id){
+DJI::DJI(CanInterface* _can_bus,int _id,int _dir, float _radius_mm):MotorBase(_dir),can_bus(_can_bus),id(_id),radius_mm(_radius_mm){
 }
 
 void DJI::Init(){
@@ -69,9 +69,13 @@ float DJI::GetCurrent_mA(){
 float DJI::GetPotion_rad(){
 	return (float)can_bus->position_raw[id-1]/max_position_data*max_position_value_rad;
 }
-float DJI::GetVelocity_rad_s(){
+float DJI::GetVelocity_rad_s(){//todo rpm*2*pi/60
 	return dir * (float)(int16_t)can_bus->velocity_raw[id-1]*3.141592/60.0/gera_ratio;
 }
+float DJI::GetVelocity_mm_s(){
+	return dir * (float)(int16_t)can_bus->velocity_raw[id-1]*2*3.141592/60.0/gera_ratio*radius_mm;
+}
+
 float DJI::GetTemp_degC(){
 	return can_bus->temp_raw[id-1];
 }
