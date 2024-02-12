@@ -59,10 +59,14 @@ void Error_Handler(void);
 /* Private defines -----------------------------------------------------------*/
 #define ESW_Pin GPIO_PIN_6
 #define ESW_GPIO_Port GPIOE
+#define PHOTO_SENS1_Pin GPIO_PIN_0
+#define PHOTO_SENS1_GPIO_Port GPIOF
 #define POWER1_CTRL_Pin GPIO_PIN_2
 #define POWER1_CTRL_GPIO_Port GPIOH
 #define POWER2_CTRL_Pin GPIO_PIN_3
 #define POWER2_CTRL_GPIO_Port GPIOH
+#define PHOTO_SENS2_Pin GPIO_PIN_1
+#define PHOTO_SENS2_GPIO_Port GPIOF
 #define POWER3_CTRL_Pin GPIO_PIN_4
 #define POWER3_CTRL_GPIO_Port GPIOH
 #define LED8_Pin GPIO_PIN_6

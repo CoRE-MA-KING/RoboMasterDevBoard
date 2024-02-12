@@ -30,10 +30,12 @@ void Encorder::Update(){
 	switch(ch){
 	case 2:
 		pulse=TIM2->CNT-ENC_ZERO;
+		pulse*=dir;
 		TIM2->CNT=ENC_ZERO;
 		break;
 	case 8:
 		pulse=TIM8->CNT-ENC_ZERO;
+		pulse*=dir;
 		TIM8->CNT=ENC_ZERO;
 		break;
 	default:
@@ -50,7 +52,7 @@ float Encorder::GetVelocity_rpm(){
 
 }
 float Encorder::GetVelocity_rad_s(){
-	return (float)pulse/ppr*(2*3.1415)/period_ms;
+	return (float)pulse/ppr*(2*3.1415)/(period_ms*0.001);
 }
 
 float Encorder::GetVelicty_mm_s(){

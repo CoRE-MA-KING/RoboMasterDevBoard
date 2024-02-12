@@ -24,6 +24,10 @@ extern PID m2_pid;
 extern PID m3_pid;
 extern PID m4_pid;
 
+extern C610 loading_motor;
+extern PID loading_motor_pid;
+
+
 extern SabertoothDual rollerR;
 extern SabertoothDual rollerL;
 

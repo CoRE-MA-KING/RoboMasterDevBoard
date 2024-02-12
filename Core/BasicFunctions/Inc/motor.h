@@ -36,7 +36,7 @@ public:
 	void SendData();
 };
 
-class C620 :public MotorBase{
+class DJI :public MotorBase{
 private:
 	const int max_current_data=16384;
 	const float max_current_value_mA=20000;
@@ -46,13 +46,39 @@ private:
 	CanInterface* can_bus;
 	int id;
 public:
-	C620(CanInterface* _can_bus,int _id,int _dir);
+	DJI(CanInterface* _can_bus,int _id,int _dir);
 	void Init();
 	void SetCurrent_mA(float I_mA);
 	float GetCurrent_mA();
 	float GetPotion_rad();
 	float GetVelocity_rad_s();
 	float GetTemp_degC();
+};
+
+class C620 :public DJI{
+private:
+	const int max_current_data=16384;
+	const float max_current_value_mA=20000;
+	const float max_position_value_rad=3.141592;
+	const int max_position_data=8191;
+
+	CanInterface* can_bus;
+	int id;
+public:
+	C620(CanInterface* _can_bus,int _id,int _dir):DJI(_can_bus, _id, _dir){};
+};
+
+class C610 :public DJI{
+private:
+	const int max_current_data=16384;
+	const float max_current_value_mA=10000;
+	const float max_position_value_rad=3.141592;
+	const int max_position_data=8191;
+
+	CanInterface* can_bus;
+	int id;
+public:
+	C610(CanInterface* _can_bus,int _id,int _dir):DJI(_can_bus, _id, _dir){};
 };
 
 class SabertoothDual: public MotorBase{

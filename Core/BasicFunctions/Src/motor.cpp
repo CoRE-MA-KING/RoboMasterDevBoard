@@ -39,10 +39,10 @@ void CanInterface::SendData(){
 	HAL_CAN_AddTxMessage(hcanx, &TxHeadrt, TxData, &TxMailbox);
 }
 
-C620::C620(CanInterface* _can_bus,int _id,int _dir):MotorBase(_dir),can_bus(_can_bus),id(_id){
+DJI::DJI(CanInterface* _can_bus,int _id,int _dir):MotorBase(_dir),can_bus(_can_bus),id(_id){
 }
 
-void C620::Init(){
+void DJI::Init(){
 	CAN_FilterTypeDef sFilterConfig;
 	sFilterConfig.FilterBank = id-1;
 	sFilterConfig.FilterMode = CAN_FILTERMODE_IDLIST;
@@ -58,21 +58,21 @@ void C620::Init(){
 
 }
 
-void C620::SetCurrent_mA(float I_mA){
+void DJI::SetCurrent_mA(float I_mA){
 	if(0<id && id <=8){
 		can_bus->current_data[id-1]= dir * (int16_t)(I_mA/max_current_value_mA *max_current_data);
 	}
 }
-float C620::GetCurrent_mA(){
+float DJI::GetCurrent_mA(){
 	return dir * (float)(int16_t)can_bus->current_raw[id-1]/max_current_data*max_current_value_mA;
 }
-float C620::GetPotion_rad(){
+float DJI::GetPotion_rad(){
 	return (float)can_bus->position_raw[id-1]/max_position_data*max_position_value_rad;
 }
-float C620::GetVelocity_rad_s(){
+float DJI::GetVelocity_rad_s(){
 	return dir * (float)(int16_t)can_bus->velocity_raw[id-1]*3.141592/60.0;
 }
-float C620::GetTemp_degC(){
+float DJI::GetTemp_degC(){
 	return can_bus->temp_raw[id-1];
 }
 
