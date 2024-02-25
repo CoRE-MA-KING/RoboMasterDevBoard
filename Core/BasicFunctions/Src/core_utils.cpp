@@ -40,6 +40,9 @@ void Init(){
 
 	rollerL.Init();
 	rollerR.Init();
+	rollerL.SetVoltage_V(0);
+	rollerR.SetVoltage_V(0);
+
 
 	HAL_GPIO_WritePin(RELAY_GPIO_Port, RELAY_Pin, GPIO_PIN_SET);
 	HAL_GPIO_WritePin(POWER1_CTRL_GPIO_Port, POWER1_CTRL_Pin, GPIO_PIN_SET);

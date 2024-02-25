@@ -23,7 +23,8 @@ void ESWMode::Update(){
 	motor4.SetCurrent_mA(0);
 	loading_motor.SetCurrent_mA(0);
 	pitch_motor.SetCurrent_mA(0);
-
+	rollerL.SetVoltage_V(0);
+	rollerR.SetVoltage_V(0);
 }
 
 

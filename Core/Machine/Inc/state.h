@@ -82,11 +82,17 @@ public:
 };
 
 class BreakMode: public MachineMode{
+public:
+	BreakMode();
+	void Init();
 	void Update();
 
 };
 
 class CommunicationErrorMode: public MachineMode{
+public:
+	CommunicationErrorMode();
+	void Init();
 	void Update();
 
 };
