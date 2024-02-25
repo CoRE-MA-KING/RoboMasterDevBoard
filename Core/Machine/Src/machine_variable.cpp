@@ -18,6 +18,8 @@ C620 motor3(&can2_bus,3,1,wheel_r_mm);
 C620 motor4(&can2_bus,4,1,wheel_r_mm);
 
 C610 loading_motor(&can1_bus,1,1,1);
+C620 pitch_motor(&can1_bus,2,1,1);
+
 
 PID m1_pid(1.0, 0, 0, control_period_ms);
 PID m2_pid(1.0, 0.0, 0, control_period_ms);
@@ -25,7 +27,7 @@ PID m3_pid(1.0, 0.01, 0, control_period_ms);
 PID m4_pid(1.0, 0.01, 0, control_period_ms);
 
 PID loading_motor_pid(5.0, 0.05, 0, control_period_ms);
-
+PID pitch_motor_pid(1,0.01,0,control_period_ms);
 
 SabertoothDual rollerL(1,-1);
 SabertoothDual rollerR(2,-1);
@@ -37,4 +39,11 @@ uint8_t rxed_byte_data;
 UsartBuffer ub;
 CoreWirelessControlRx cwcr(&ub);
 
-int ESW;
+State state;
+
+MachineInitMode machine_init_mode;
+NromalMode normal_mode;
+ESWMode esw_mode;
+BreakMode break_mode;
+CommunicationErrorMode communication_error_mode;
+

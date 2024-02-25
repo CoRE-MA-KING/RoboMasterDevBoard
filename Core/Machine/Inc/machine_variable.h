@@ -12,6 +12,7 @@
 #include "encorder.h"
 #include "controller.h"
 #include "core_wireless_control_rx.hpp"
+#include "state.h"
 
 extern CanInterface can1_bus;
 extern CanInterface can2_bus;
@@ -26,7 +27,9 @@ extern PID m3_pid;
 extern PID m4_pid;
 
 extern C610 loading_motor;
+extern C620 pitch_motor;
 extern PID loading_motor_pid;
+extern PID pitch_motor_pid;
 
 
 extern SabertoothDual rollerR;
@@ -39,5 +42,12 @@ extern uint8_t rxed_byte_data;
 extern UsartBuffer ub;
 extern CoreWirelessControlRx cwcr;
 
-extern int ESW;
+extern State state;
+
+extern MachineInitMode machine_init_mode;
+extern NromalMode normal_mode;
+extern ESWMode esw_mode;
+extern BreakMode break_mode;
+extern CommunicationErrorMode communication_error_mode;
+
 #endif /* MACHINE_VARIABLE_H_ */
