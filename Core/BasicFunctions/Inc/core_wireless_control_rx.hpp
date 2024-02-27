@@ -28,6 +28,8 @@ private:
 	bool buttons_[16] = {};
 	char test_;
 
+	bool communication_error;
+
 	// original func for minimum flash size
 	// input char should be a-f,0-9,A-F
 	inline uint8_t char2int(char & c) {
@@ -46,6 +48,24 @@ public:
   CoreWirelessControlRx(UsartBuffer * usart)
   {
 	  usart_ = usart;
+	  communication_error=false;
+  }
+  bool isCommunicationError(){
+	  return communication_error;
+  }
+  void Update(){
+		static int cwcr_counter_ms=0;
+		static int cwcr_counter_threshold_ms=500;
+		if(parse() == true){
+			cwcr_counter_ms=0;
+			communication_error=true;
+		}else{
+			cwcr_counter_ms++;
+			if(cwcr_counter_ms>cwcr_counter_threshold_ms){
+				communication_error=true;
+			}
+		}
+
   }
   bool parse(){
 
