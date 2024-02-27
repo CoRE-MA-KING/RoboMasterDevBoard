@@ -9,7 +9,7 @@
 #include "stdio.h"
 #include "machine_constant.hpp"
 #include "machine_variable.h"
-
+#include "motion.h"
 
 void NromalMode::Init(){
 	printf("NromalMode!\r\n");
@@ -21,33 +21,41 @@ void NromalMode::Init(){
 	pitch_motor_pid.Reset();
 }
 void NromalMode::Update(){
+
+	//READ Wireless Controller
 	static int loading_motor_ref=0;
 
-	static int x=0;
-	static int y=0;
-	if(cwcr.parse() == true){
-		x=cwcr.axis(3)*50;
-		y=cwcr.axis(1)*50;
-		if(x<0)x=0;
-		if(y<0)y=0;
-		if(cwcr.button(1)==1){
-			loading_motor_ref=5000;
-		}
-//		printf("!-- %d, %d, %d, %d, %d\r\n"
-//			, cwcr.axis(0), cwcr.axis(1), cwcr.axis(2), cwcr.axis(3), cwcr.axis(4)
-//		);
-//		printf("!--\r\n%d, %d, %d, %d, %d\r\n%d, %d, %d, %d\r\n%d, %d, %d, %d\r\n%d, %d, %d, %d\r\n%d, %d, %d, %d\r\n"
-//			, cwcr.axis(0), cwcr.axis(1), cwcr.axis(2), cwcr.axis(3), cwcr.axis(4)
-//			, cwcr.button(0), cwcr.button(1), cwcr.button(2), cwcr.button(3)
-//			, cwcr.button(4), cwcr.button(5), cwcr.button(6), cwcr.button(7)
-//			, cwcr.button(8), cwcr.button(9), cwcr.button(10), cwcr.button(11)
-//			, cwcr.button(12), cwcr.button(13), cwcr.button(14), cwcr.button(15)
-//		);
+	static float vx_mm_s=0;
+	static float vy_mm_s=0;
+	static float omega_rad_s=0;
+
+	vx_mm_s=cwcr.axis(2)*50;
+	vy_mm_s=cwcr.axis(1)*50;
+	omega_rad_s=cwcr.axis(4)*0.0001;
+
+	if(cwcr.button(1)==1){
+		loading_motor_ref=5000;
 	}
 
-	rollerL.SetVoltage_V(y*6.0/2000.0);
-	rollerR.SetVoltage_V(x*6.0/2000.0);
+	static float roller_Voltage;
+	const float roller_Voltage_max=5.0;
+	const float delta_V=0.01;
+	if(cwcr.button(2)==1){//TODO check button
+		roller_Voltage+=delta_V;
+		if(roller_Voltage<=roller_Voltage_max){
+			roller_Voltage=roller_Voltage_max;
+		}
+	}else{
+		roller_Voltage-=delta_V;
+		if(roller_Voltage>=0){
+			roller_Voltage=0;
+		}
+	}
 
+	rollerL.SetVoltage_V(roller_Voltage);
+	rollerR.SetVoltage_V(roller_Voltage*0.2);
+
+	//loading motor control
 	int photo1=HAL_GPIO_ReadPin(PHOTO_SENS1_GPIO_Port, PHOTO_SENS1_Pin);
 	static int pre_hoto1;
 	if(photo1==1 && pre_hoto1==0){
@@ -64,28 +72,19 @@ void NromalMode::Update(){
 	float target_current_loading = loading_motor_pid.Update(v_loading_rpm);
 	loading_motor.SetCurrent_mA(target_current_loading);
 
+	//wheel motor control
+	float v1,v2,v3,v4;
+	MecanumWheelJacobian(vx_mm_s,vy_mm_s,omega_rad_s,&v1,&v2,&v3,&v4);
 
 	float vel1=motor1.GetVelocity_mm_s();
 	float vel2=motor2.GetVelocity_mm_s();
 	float vel3=motor3.GetVelocity_mm_s();
 	float vel4=motor4.GetVelocity_mm_s();
 
-
-	m1_pid.SetReference(0);
-	m2_pid.SetReference(500);
-	m3_pid.SetReference(0);
-	m4_pid.SetReference(0);
-
-/*
-	int deg1=(motor1.GetPotion_rad()*180/3.14);
-	int deg2=(motor2.GetPotion_rad()*180/3.14);
-	int deg3=(motor3.GetPotion_rad()*180/3.14);
-	int deg4=(motor4.GetPotion_rad()*180/3.14);
-*/
-	int current1=(int)motor1.GetCurrent_mA();
-	int current2=(int)motor2.GetCurrent_mA();
-	int current3=(int)motor3.GetCurrent_mA();
-	int current4=(int)motor4.GetCurrent_mA();
+	m1_pid.SetReference(v1);
+	m2_pid.SetReference(v2);
+	m3_pid.SetReference(v3);
+	m4_pid.SetReference(v4);
 
 	float target_current1 = m1_pid.Update(vel1);
 	float target_current2 = m2_pid.Update(vel2);
@@ -97,9 +96,7 @@ void NromalMode::Update(){
 	motor3.SetCurrent_mA(target_current3);
 	motor4.SetCurrent_mA(target_current4);
 
-	printf("%d,%d,%d\r\n",(int)(vel2),current2,(int)target_current2);
-
-
+	printf("%d,%d,%d\r\n",(int)(vx_mm_s),(int)vy_mm_s,(int)(omega_rad_s*1000));
 
 }
 

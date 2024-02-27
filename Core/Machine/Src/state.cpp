@@ -35,6 +35,16 @@ void State::ChaekEvent(){
 	pre_machine_vitale=machine_vitale;
 
 
+	bool commu_status=cwcr.isCommunicationError();
+	static bool pre_commu_status;
+	if(commu_status==true && pre_commu_status==false){
+		event=Event::communication_error;
+	}else if(commu_status==false && pre_commu_status==true){
+		event=Event::communication_ok;
+	}
+	pre_commu_status=commu_status;
+
+
 	const GPIO_PinState ESW_PUSHED=GPIO_PIN_RESET;
 	const GPIO_PinState ESW_RELESED=GPIO_PIN_SET;
 	static GPIO_PinState pre_ESW=ESW_RELESED;

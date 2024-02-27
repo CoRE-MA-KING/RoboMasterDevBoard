@@ -6,6 +6,7 @@
  */
 
 #include "state.h"
+#include "machine_variable.h"
 
 CommunicationErrorMode::CommunicationErrorMode(){
 

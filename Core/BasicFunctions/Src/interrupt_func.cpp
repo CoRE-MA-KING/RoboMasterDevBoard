@@ -25,6 +25,9 @@ void Interrupt1ms(){
 	roller_enc_L.Update();
 	roller_enc_R.Update();
 
+
+	cwcr.Update();
+
 	state.Update();
 
 	can1_bus.SendData();
