@@ -37,23 +37,23 @@ void NromalMode::Update(){
 		loading_motor_ref=5000;
 	}
 
-	static float roller_Voltage;
-	const float roller_Voltage_max=5.0;
-	const float delta_V=0.01;
+	static float roller_voltage_V=0;
+	const float kRollerVoltageMax_V=5.0;
+	const float kDelta_V=0.01;
 	if(cwcr.button(2)==1){//TODO check button
-		roller_Voltage+=delta_V;
-		if(roller_Voltage<=roller_Voltage_max){
-			roller_Voltage=roller_Voltage_max;
+		roller_voltage_V+=kDelta_V;
+		if(roller_voltage_V<=kRollerVoltageMax_V){
+			roller_voltage_V=kRollerVoltageMax_V;
 		}
 	}else{
-		roller_Voltage-=delta_V;
-		if(roller_Voltage>=0){
-			roller_Voltage=0;
+		roller_voltage_V-=kDelta_V;
+		if(roller_voltage_V>=0){
+			roller_voltage_V=0;
 		}
 	}
 
-	rollerL.SetVoltage_V(roller_Voltage);
-	rollerR.SetVoltage_V(roller_Voltage*0.2);
+	rollerL.SetVoltage_V(roller_voltage_V);
+	rollerR.SetVoltage_V(roller_voltage_V*0.2);
 
 	//loading motor control
 	int photo1=HAL_GPIO_ReadPin(PHOTO_SENS1_GPIO_Port, PHOTO_SENS1_Pin);
@@ -91,10 +91,10 @@ void NromalMode::Update(){
 	float target_current3 = m3_pid.Update(vel3);
 	float target_current4 = m4_pid.Update(vel4);
 
-	motor1.SetCurrent_mA(target_current1);
-	motor2.SetCurrent_mA(target_current2);
-	motor3.SetCurrent_mA(target_current3);
-	motor4.SetCurrent_mA(target_current4);
+	motor1.SetCurrent_mA(0);
+	motor2.SetCurrent_mA(0);
+	motor3.SetCurrent_mA(0);
+	motor4.SetCurrent_mA(0);
 
 	printf("%d,%d,%d\r\n",(int)(vx_mm_s),(int)vy_mm_s,(int)(omega_rad_s*1000));
 

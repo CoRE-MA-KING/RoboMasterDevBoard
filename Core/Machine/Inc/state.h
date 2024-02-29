@@ -11,25 +11,25 @@
 
 
 enum class Event{
-none,
-finish_init_MPU,
-finish_init_machine,
-esw_push,
-esw_release,
-break_signal,
-revibal,
-communication_error,
-communication_ok
+kNone,
+kFinishInitMPU,
+kFinishInitMachine,
+kEswPush,
+kEswRelease,
+kBreakSignal,
+kRevibal,
+kCommunicationError,
+kCommunicationOk
 };
 
 enum class Mode{
-MPU_init,
-MPU_init_ESW_pushed,
-machine_init,
-normal,
-machine_break,
-ESW_pushed,
-communication_error
+kMPUInit,
+kMPUInitEswPushed,
+kMachineInit,
+kNormal,
+kMachineBreak,
+kEmergencyStop,
+kCommunicationError
 };
 
 class MachineMode{

@@ -70,8 +70,8 @@ void Init(){
 
 	HAL_UART_Receive_IT(&huart8, &rxed_byte_data, 1);
 
-	if(HAL_GPIO_ReadPin(ESW_GPIO_Port, ESW_Pin)==GPIO_PIN_SET)state.SetMode(Mode::machine_init);
-	else state.SetMode(Mode::ESW_pushed);
+	if(HAL_GPIO_ReadPin(ESW_GPIO_Port, ESW_Pin)==GPIO_PIN_SET)state.SetMode(Mode::kMachineInit);
+	else state.SetMode(Mode::kEmergencyStop);
 	HAL_TIM_Base_Start_IT(&htim14);
 
 }
