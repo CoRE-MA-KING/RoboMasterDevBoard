@@ -42,30 +42,30 @@ public:
 
 class State{
 private:
-	MachineMode machine_mode;
-	Event event;
-	Mode mode;
+	MachineMode machine_mode_;
+	Event event_;
+	Mode mode_;
 
-	int pre_esw;
+	int pre_esw_;
 public:
 	State();
 	void Init(){};
-	void SetMode(Mode _mode){mode=_mode;};
+	void SetMode(Mode mode){mode_=mode;};
 	void ChaekEvent();
-	void Update(){machine_mode.Update();};
+	void Update(){machine_mode_.Update();};
 };
 
 class MachineInitMode: public MachineMode{
 private:
-	bool finish_flag=false;
-	const int power_on_time_ms=2000;
-	int power_on_timer=0;
-	int pitch_dir=-1;
+	bool finish_flag_=false;
+	const int power_on_time_ms_=2000;
+	int power_on_timer_=0;
+	int pitch_dir_=-1;
 public:
 	MachineInitMode();
 	void Init();
 	void Update();
-	bool isFinishInit(){return finish_flag;};
+	bool isFinishInit(){return finish_flag_;};
 
 };
 
