@@ -70,7 +70,20 @@ public:
 };
 
 class NromalMode: public MachineMode{
+private:
+	int loading_motor_ref_=0;
+
+	float vx_mm_s_=0;
+	float vy_mm_s_=0;
+	float omega_rad_s_=0;
+
+	int photo1_=0;
+	int pre_hoto1_=0;
+	float roller_voltage_V_=0;
+	float roller_voltage_max_V=5.0;
+
 public:
+	NromalMode(){}
 	void Init();
 	void Update();
 };

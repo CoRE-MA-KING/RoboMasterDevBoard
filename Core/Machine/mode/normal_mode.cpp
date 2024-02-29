@@ -12,6 +12,16 @@
 #include "motion.h"
 
 void NromalMode::Init(){
+	loading_motor_ref_=0;
+
+	vx_mm_s_=0;
+	vy_mm_s_=0;
+	omega_rad_s_=0;
+	photo1_=0;
+	pre_hoto1_=0;
+	roller_voltage_V_=0;
+
+
 	printf("NromalMode!\r\n");
 	m1_pid.Reset();
 	m2_pid.Reset();
@@ -23,50 +33,42 @@ void NromalMode::Init(){
 void NromalMode::Update(){
 
 	//READ Wireless Controller
-	static int loading_motor_ref=0;
 
-	static float vx_mm_s=0;
-	static float vy_mm_s=0;
-	static float omega_rad_s=0;
-
-	vx_mm_s=cwcr.axis(2)*50;
-	vy_mm_s=cwcr.axis(1)*50;
-	omega_rad_s=cwcr.axis(4)*0.0001;
+	vx_mm_s_=cwcr.axis(2)*50;
+	vy_mm_s_=cwcr.axis(1)*50;
+	omega_rad_s_=cwcr.axis(4)*0.0001;
 
 	if(cwcr.button(1)==1){
-		loading_motor_ref=5000;
+		loading_motor_ref_=5000;
 	}
 
-	static float roller_voltage_V=0;
-	const float kRollerVoltageMax_V=5.0;
 	const float kDelta_V=0.01;
 	if(cwcr.button(2)==1){//TODO check button
-		roller_voltage_V+=kDelta_V;
-		if(roller_voltage_V<=kRollerVoltageMax_V){
-			roller_voltage_V=kRollerVoltageMax_V;
+		roller_voltage_V_+=kDelta_V;
+		if(roller_voltage_V_<=roller_voltage_max_V){
+			roller_voltage_V_=roller_voltage_max_V;
 		}
 	}else{
-		roller_voltage_V-=kDelta_V;
-		if(roller_voltage_V>=0){
-			roller_voltage_V=0;
+		roller_voltage_V_-=kDelta_V;
+		if(roller_voltage_V_>=0){
+			roller_voltage_V_=0;
 		}
 	}
 
-	rollerL.SetVoltage_V(roller_voltage_V);
-	rollerR.SetVoltage_V(roller_voltage_V*0.2);
+	rollerL.SetVoltage_V(roller_voltage_V_);
+	rollerR.SetVoltage_V(roller_voltage_V_*0.2);
 
 	//loading motor control
-	int photo1=HAL_GPIO_ReadPin(PHOTO_SENS1_GPIO_Port, PHOTO_SENS1_Pin);
-	static int pre_hoto1;
-	if(photo1==1 && pre_hoto1==0){
-		loading_motor_ref=0;
+	photo1_=HAL_GPIO_ReadPin(PHOTO_SENS1_GPIO_Port, PHOTO_SENS1_Pin);
+	if(photo1_==1 && pre_hoto1_==0){
+		loading_motor_ref_=0;
 	}
-	pre_hoto1=photo1;
+	pre_hoto1_=photo1_;
 
 	int loading_current_mA = loading_motor.GetCurrent_mA();
 	float v_loading_rpm=loading_motor.GetVelocity_rad_s()/(2*3.14)*60;
 
-	loading_motor_pid.SetReference(loading_motor_ref);
+	loading_motor_pid.SetReference(loading_motor_ref_);
 	loading_motor_pid.Update(v_loading_rpm);
 
 	float target_current_loading = loading_motor_pid.Update(v_loading_rpm);
@@ -74,7 +76,7 @@ void NromalMode::Update(){
 
 	//wheel motor control
 	float v1,v2,v3,v4;
-	MecanumWheelJacobian(vx_mm_s,vy_mm_s,omega_rad_s,&v1,&v2,&v3,&v4);
+	MecanumWheelJacobian(vx_mm_s_,vy_mm_s_,omega_rad_s_,&v1,&v2,&v3,&v4);
 
 	float vel1=motor1.GetVelocity_mm_s();
 	float vel2=motor2.GetVelocity_mm_s();
@@ -96,7 +98,7 @@ void NromalMode::Update(){
 	motor3.SetCurrent_mA(0);
 	motor4.SetCurrent_mA(0);
 
-	printf("%d,%d,%d\r\n",(int)(vx_mm_s),(int)vy_mm_s,(int)(omega_rad_s*1000));
+	printf("%d,%d,%d\r\n",(int)(vx_mm_s_),(int)vy_mm_s_,(int)(omega_rad_s_*1000));
 
 }
 
