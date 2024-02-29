@@ -12,16 +12,16 @@
 
 class Encorder{
 private:
-	const int16_t ENC_ZERO=0x7FFF;
-	int ch;
-	int ppr;
-	int period_ms;
-	int radius_mm;
-	int dir;
-	int16_t pulse;
+	const int16_t kEncZero=0x7FFF;
+	int ch_;
+	int ppr_;
+	int period_ms_;
+	int radius_mm_;
+	int dir_;
+	int16_t pulse_;
 
 public:
-	Encorder(int _ch, int _ppr,int _period_ms,int _radius_mm,int _dir);
+	Encorder(int ch, int ppr,int period_ms,int radius_mm,int dir);
 	void Init();
 	void Update();//call every period
 	int GetPulse();
@@ -30,9 +30,4 @@ public:
 	float GetVelicty_mm_s();
 };
 
-void Encorder1Init();
-void Encorder2Init();
-
-int Encorder1Pulse();
-int Encorder2Pulse();
 #endif /* ENCORDER_H_ */
