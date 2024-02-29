@@ -12,31 +12,31 @@ MachineInitMode::MachineInitMode(){
 };
 
 void MachineInitMode::Init(){
-	finish_flag=false;
-	power_on_timer=0;
+	finish_flag_=false;
+	power_on_timer_=0;
 
 	HAL_GPIO_WritePin(RELAY_GPIO_Port, RELAY_Pin, GPIO_PIN_SET);
 
 }
 void MachineInitMode::Update(){
-	if(power_on_timer<power_on_time_ms){
-		power_on_timer++;
-		pitch_dir=-1;
+	if(power_on_timer_<power_on_time_ms_){
+		power_on_timer_++;
+		pitch_dir_=-1;
 		return;
 	}
 
 	float pitch_vel=pitch_motor.GetVelocity_rad_s();
-	pitch_motor_pid.SetReference(pitch_dir*1);
+	pitch_motor_pid.SetReference(pitch_dir_*1);
 
 	int pitch_current_mA=(int)pitch_motor.GetCurrent_mA();
 	float target_pitch_current_mA=pitch_motor_pid.Update(pitch_vel);
 
 	if(HAL_GPIO_ReadPin(PHOTO_SENS2_GPIO_Port, PHOTO_SENS2_Pin)==GPIO_PIN_SET){
-		pitch_dir=1;
+		pitch_dir_=1;
 	}
-	if(pitch_dir==1 && HAL_GPIO_ReadPin(PHOTO_SENS2_GPIO_Port, PHOTO_SENS2_Pin)==GPIO_PIN_RESET){
+	if(pitch_dir_==1 && HAL_GPIO_ReadPin(PHOTO_SENS2_GPIO_Port, PHOTO_SENS2_Pin)==GPIO_PIN_RESET){
 		target_pitch_current_mA=0;
-		finish_flag=true;
+		finish_flag_=true;
 	}
 	pitch_motor.SetCurrent_mA(target_pitch_current_mA);
 
