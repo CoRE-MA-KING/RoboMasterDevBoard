@@ -41,9 +41,5 @@ CoreWirelessControlRx cwcr(&ub);
 
 State state;
 
-MachineInitMode machine_init_mode;
-NromalMode normal_mode;
-ESWMode esw_mode;
-BreakMode break_mode;
-CommunicationErrorMode communication_error_mode;
+
 

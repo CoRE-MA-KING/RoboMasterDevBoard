@@ -44,10 +44,4 @@ extern CoreWirelessControlRx cwcr;
 
 extern State state;
 
-extern MachineInitMode machine_init_mode;
-extern NromalMode normal_mode;
-extern ESWMode esw_mode;
-extern BreakMode break_mode;
-extern CommunicationErrorMode communication_error_mode;
-
 #endif /* MACHINE_VARIABLE_H_ */
