@@ -8,7 +8,7 @@
 #include "machine_constant.hpp"
 
 void MecanumWheelJacobian(float vx, float vy, float omega, float* v1,float* v2,float* v3,float* v4){
-	float r=machine_length_mm+machine_width_mm;
+	float r=kMachineLength_mm+kMachineWidth_mm;
 
 	*v1=  vx + vy + r*omega;
 	*v2= -vx + vy + r*omega;
