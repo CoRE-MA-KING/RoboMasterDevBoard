@@ -83,6 +83,10 @@ void NromalMode::Update(){
 	float vel3=motor3.GetVelocity_mm_s();
 	float vel4=motor4.GetVelocity_mm_s();
 
+	v1=4000;
+	v2=4000;
+	v3=4000;
+	v4=4000;
 	m1_pid.SetReference(v1);
 	m2_pid.SetReference(v2);
 	m3_pid.SetReference(v3);
@@ -93,12 +97,13 @@ void NromalMode::Update(){
 	float target_current3 = m3_pid.Update(vel3);
 	float target_current4 = m4_pid.Update(vel4);
 
-	motor1.SetCurrent_mA(0);
-	motor2.SetCurrent_mA(0);
-	motor3.SetCurrent_mA(0);
-	motor4.SetCurrent_mA(0);
+	motor1.SetCurrent_mA(target_current1);
+	motor2.SetCurrent_mA(target_current2);
+	motor3.SetCurrent_mA(target_current3);
+	motor4.SetCurrent_mA(target_current4);
 
-	printf("%d,%d,%d\r\n",(int)(vx_mm_s_),(int)vy_mm_s_,(int)(omega_rad_s_*1000));
+	printf("%d,%d,%d,%d,\r\n",(int)vel1,(int)vel2,(int)vel3,(int)vel4);
+	//printf("%d,%d,%d\r\n",(int)(vx_mm_s_),(int)vy_mm_s_,(int)(omega_rad_s_*1000));
 
 }
 

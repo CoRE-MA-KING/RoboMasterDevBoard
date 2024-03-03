@@ -19,6 +19,9 @@ State::State(){
 
 }
 
+void State::Init(){
+	machine_mode_=&machine_init_mode;;
+}
 void State::ChaekEvent(){
 	event_=Event::kNone;
 
@@ -32,11 +35,11 @@ void State::ChaekEvent(){
 	GPIO_PinState machine_vitale=HAL_GPIO_ReadPin(BREAK_SIGNAL_GPIO_Port, BREAK_SIGNAL_Pin);
 	if(pre_machine_vitale==kMachineAlive
 		&& machine_vitale==kMachneBrake){
-		event_=Event::kBreakSignal;
+	//	event_=Event::kBreakSignal;
 	}
 	if(pre_machine_vitale==kMachneBrake
 		&& machine_vitale==kMachineAlive){
-		event_=Event::kRevibal;
+	//	event_=Event::kRevibal;
 	}
 	pre_machine_vitale=machine_vitale;
 
@@ -44,7 +47,7 @@ void State::ChaekEvent(){
 	bool commu_status=cwcr.isCommunicationError();
 	static bool pre_commu_status;
 	if(commu_status==true && pre_commu_status==false){
-		event_=Event::kCommunicationError;
+//		event_=Event::kCommunicationError;
 	}else if(commu_status==false && pre_commu_status==true){
 		event_=Event::kCommunicationOk;
 	}
@@ -73,90 +76,90 @@ void State::ChaekEvent(){
 	case Mode::kMPUInit:
 		if(event_==Event::kFinishInitMPU){
 			mode_=Mode::kMachineInit;
-			machine_mode_=machine_init_mode;
-			machine_mode_.Init();
+			machine_mode_=&machine_init_mode;
+			machine_mode_->Init();
 		}
 		break;
 	case Mode::kMPUInitEswPushed:
 		if(event_==Event::kFinishInitMPU){
 			mode_=Mode::kEmergencyStop;
-			machine_mode_=esw_mode;
-			machine_mode_.Init();
+			machine_mode_=&esw_mode;
+			machine_mode_->Init();
 		}
 		break;
 	case Mode::kMachineInit:
 		if(event_==Event::kEswPush){
 			mode_=Mode::kEmergencyStop;
-			machine_mode_=esw_mode;
-			machine_mode_.Init();
+			machine_mode_=&esw_mode;
+			machine_mode_->Init();
 		}
 		else if(event_==Event::kBreakSignal){
 			mode_=Mode::kMachineBreak;
-			machine_mode_=break_mode;
-			machine_mode_.Init();
+			machine_mode_=&break_mode;
+			machine_mode_->Init();
 		}
 		else if(event_==Event::kCommunicationError){
 			mode_=Mode::kCommunicationError;
-			machine_mode_=communication_error_mode;
-			machine_mode_.Init();
+			machine_mode_=&communication_error_mode;
+			machine_mode_->Init();
 		}
 		else if(event_==Event::kFinishInitMachine){
 			mode_=Mode::kNormal;
-			machine_mode_=normal_mode;
-			machine_mode_.Init();
+			machine_mode_=&normal_mode;
+			machine_mode_->Init();
 		}
 		break;
 	case Mode::kNormal:
 		if(event_==Event::kEswPush){
 			mode_=Mode::kEmergencyStop;
-			machine_mode_=esw_mode;
-			machine_mode_.Init();
+			machine_mode_=&esw_mode;
+			machine_mode_->Init();
 		}
 		else if(event_==Event::kBreakSignal){
 			mode_=Mode::kMachineBreak;
-			machine_mode_=break_mode;
-			machine_mode_.Init();
+			machine_mode_=&break_mode;
+			machine_mode_->Init();
 		}
 		else if(event_==Event::kCommunicationError){
 			mode_=Mode::kCommunicationError;
-			machine_mode_=communication_error_mode;
-			machine_mode_.Init();
+			machine_mode_=&communication_error_mode;
+			machine_mode_->Init();
 		}
 		break;
 	case Mode::kMachineBreak:
 		if(event_==Event::kEswPush){
 			mode_=Mode::kEmergencyStop;
-			machine_mode_=esw_mode;
-			machine_mode_.Init();
+			machine_mode_=&esw_mode;
+			machine_mode_->Init();
 		}
 		else if(event_==Event::kCommunicationError){
 			mode_=Mode::kCommunicationError;
-			machine_mode_=communication_error_mode;
-			machine_mode_.Init();
+			machine_mode_=&communication_error_mode;
+			machine_mode_->Init();
 		}
 		else if(event_==Event::kRevibal){
 			mode_=Mode::kMachineInit;
-			machine_mode_=machine_init_mode;
-			machine_mode_.Init();
+			machine_mode_=&machine_init_mode;
+			machine_mode_->Init();
 		}
 		break;
 	case Mode::kEmergencyStop:
 		if(event_==Event::kEswRelease){
 			mode_=Mode::kMachineInit;
-			machine_mode_=machine_init_mode;
-			machine_mode_.Init();
+			machine_mode_=&machine_init_mode;
+			machine_mode_->Init();
 		}
 		break;
 	case Mode::kCommunicationError:
 		if(event_==Event::kEswPush){
 			mode_=Mode::kEmergencyStop;
-			machine_mode_=esw_mode;
-			machine_mode_.Init();
+			machine_mode_=&esw_mode;
+			machine_mode_->Init();
 		}
 		else if(event_==Event::kCommunicationOk){
 			mode_=Mode::kMachineInit;
-			machine_mode_=machine_init_mode;
-			machine_mode_.Init();
+			machine_mode_=&machine_init_mode;
+			machine_mode_->Init();
 		}
 		break;
 	}

@@ -7,7 +7,7 @@
 #include "state.h"
 #include "gpio.h"
 #include "machine_variable.h"
-
+#include "stdio.h"
 MachineInitMode::MachineInitMode(){
 };
 
@@ -22,6 +22,8 @@ void MachineInitMode::Update(){
 	if(power_on_timer_<power_on_time_ms_){
 		power_on_timer_++;
 		pitch_dir_=-1;
+		finish_flag_=true;
+
 		return;
 	}
 
@@ -46,6 +48,7 @@ void MachineInitMode::Update(){
 	motor3.SetCurrent_mA(0);
 	motor4.SetCurrent_mA(0);
 
+	printf("init now!\r\n");
 
 
 }

@@ -35,24 +35,24 @@ kCommunicationError
 class MachineMode{
 public:
 	MachineMode(){};
-	void Init(){};
-	void Update(){};
+	virtual void Init(){};
+	virtual void Update(){};
 };
 
 
 class State{
 private:
-	MachineMode machine_mode_;
+	MachineMode* machine_mode_;
 	Event event_;
 	Mode mode_;
 
 	int pre_esw_;
 public:
 	State();
-	void Init(){};
+	void Init();
 	void SetMode(Mode mode){mode_=mode;};
 	void ChaekEvent();
-	void Update(){machine_mode_.Update();};
+	void Update(){machine_mode_->Update();};
 };
 
 class MachineInitMode: public MachineMode{

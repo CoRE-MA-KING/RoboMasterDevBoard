@@ -6,6 +6,7 @@
  */
 
 #include "state.h"
+#include "stdio.h"
 
 BreakMode::BreakMode(){
 
@@ -16,5 +17,5 @@ void BreakMode::Init(){
 }
 
 void BreakMode::Update(){
-
+	printf("Break!\r\n");
 }

@@ -7,7 +7,7 @@
 
 #include "state.h"
 #include "machine_variable.h"
-
+#include "stdio.h"
 CommunicationErrorMode::CommunicationErrorMode(){
 
 }
@@ -26,6 +26,7 @@ void CommunicationErrorMode::Update(){
 	pitch_motor.SetCurrent_mA(0);
 	rollerL.SetVoltage_V(0);
 	rollerR.SetVoltage_V(0);
+	printf("Comm Error!\r\n");
 }
 
 
