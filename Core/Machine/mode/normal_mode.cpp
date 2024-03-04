@@ -39,18 +39,18 @@ void NromalMode::Update(){
 	omega_rad_s_=cwcr.axis(2)*0.01;
 
 	if(cwcr.button(1)==1){
-		loading_motor_ref_=5000;
+		loading_motor_ref_=4000;
 	}
 
 	const float kDelta_V=0.01;
 	if(cwcr.button(2)==1){//TODO check button
 		roller_voltage_V_+=kDelta_V;
-		if(roller_voltage_V_<=roller_voltage_max_V){
+		if(roller_voltage_V_>=roller_voltage_max_V){
 			roller_voltage_V_=roller_voltage_max_V;
 		}
 	}else{
 		roller_voltage_V_-=kDelta_V;
-		if(roller_voltage_V_>=0){
+		if(roller_voltage_V_<=0){
 			roller_voltage_V_=0;
 		}
 	}
@@ -106,7 +106,9 @@ void NromalMode::Update(){
 	motor3.SetCurrent_mA(target_current3);
 	motor4.SetCurrent_mA(target_current4);
 
-	printf("%d,%d,%d,%d,\r\n",(int)v1,(int)v2,(int)v3,(int)v4);
+
+	printf("%d,%d,%d,%d,%d,\r\n",(int)(roller_voltage_V_*1000),(int)v1,(int)v2,(int)v3,(int)v4);
+	//printf("%d,%d,%d,%d,\r\n",(int)v1,(int)v2,(int)v3,(int)v4);
 	//printf("%d,%d,%d,%d,\r\n",(int)vel1,(int)vel2,(int)vel3,(int)vel4);
 	//printf("%d,%d,%d\r\n",(int)(vx_mm_s_),(int)vy_mm_s_,(int)(omega_rad_s_*1000));
 
