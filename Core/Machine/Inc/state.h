@@ -58,7 +58,7 @@ public:
 class MachineInitMode: public MachineMode{
 private:
 	bool finish_flag_=false;
-	const int kPowerOnTime_ms_=2000;
+	const int kPowerOnTime_ms_=4000;
 	int power_on_timer_=0;
 	int pitch_dir_=-1;
 public:

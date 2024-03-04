@@ -29,6 +29,8 @@ private:
 	char test_;
 
 	bool communication_error;
+	int cwcr_counter_ms=0;
+
 
 	// original func for minimum flash size
 	// input char should be a-f,0-9,A-F
@@ -49,16 +51,16 @@ public:
   {
 	  usart_ = usart;
 	  communication_error=false;
+	  cwcr_counter_ms=0;
   }
   bool isCommunicationError(){
 	  return communication_error;
   }
   void Update(){
-		static int cwcr_counter_ms=0;
-		static int cwcr_counter_threshold_ms=500;
+		const int cwcr_counter_threshold_ms=200;
 		if(parse() == true){
 			cwcr_counter_ms=0;
-			communication_error=true;
+			communication_error=false;
 		}else{
 			cwcr_counter_ms++;
 			if(cwcr_counter_ms>cwcr_counter_threshold_ms){

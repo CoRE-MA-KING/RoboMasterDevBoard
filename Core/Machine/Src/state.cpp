@@ -72,7 +72,7 @@ void State::ChaekEvent(){
 	bool commu_status=cwcr.isCommunicationError();
 	static bool pre_commu_status;
 	if(commu_status==true && pre_commu_status==false){
-//		event_=Event::kCommunicationError;
+		event_=Event::kCommunicationError;
 	}else if(commu_status==false && pre_commu_status==true){
 		event_=Event::kCommunicationOk;
 	}
