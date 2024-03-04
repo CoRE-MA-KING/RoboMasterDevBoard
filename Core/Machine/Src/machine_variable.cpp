@@ -12,19 +12,19 @@
 
 CanInterface can1_bus(&hcan1);
 CanInterface can2_bus(&hcan2);
-C620 motor1(&can1_bus,1,-1,kWheelRadius_mm);
+C620 motor1(&can1_bus,1,1,kWheelRadius_mm);
 C620 motor2(&can1_bus,2,-1,kWheelRadius_mm);
 C620 motor3(&can1_bus,3,1,kWheelRadius_mm);
-C620 motor4(&can1_bus,4,1,kWheelRadius_mm);
+C620 motor4(&can1_bus,4,-1,kWheelRadius_mm);
 
 C610 loading_motor(&can2_bus,1,1,1);
 C620 pitch_motor(&can2_bus,2,1,1);
 
 
-PID m1_pid(5.0, 0.1, 0, kControlPeriod_ms);
-PID m2_pid(5.0, 0.1, 0, kControlPeriod_ms);
-PID m3_pid(5.0, 0.1, 0, kControlPeriod_ms);
-PID m4_pid(5.0, 0.1, 0, kControlPeriod_ms);
+PID m1_pid(4.0, 0.1, 0, kControlPeriod_ms);
+PID m2_pid(4.0, 0.1, 0, kControlPeriod_ms);
+PID m3_pid(4.0, 0.1, 0, kControlPeriod_ms);
+PID m4_pid(4.0, 0.1, 0, kControlPeriod_ms);
 
 PID loading_motor_pid(5.0, 0.05, 0, kControlPeriod_ms);
 PID pitch_motor_pid(1,0.01,0,kControlPeriod_ms);

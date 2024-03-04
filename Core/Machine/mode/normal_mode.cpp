@@ -34,9 +34,9 @@ void NromalMode::Update(){
 
 	//READ Wireless Controller
 
-	vx_mm_s_=cwcr.axis(2)*50;
-	vy_mm_s_=cwcr.axis(1)*50;
-	omega_rad_s_=cwcr.axis(4)*0.0001;
+	vx_mm_s_=cwcr.axis(0)*20;
+	vy_mm_s_=cwcr.axis(1)*20;
+	omega_rad_s_=cwcr.axis(2)*0.01;
 
 	if(cwcr.button(1)==1){
 		loading_motor_ref_=5000;
@@ -83,10 +83,10 @@ void NromalMode::Update(){
 	float vel3=motor3.GetVelocity_mm_s();
 	float vel4=motor4.GetVelocity_mm_s();
 
-	v1=4000;
-	v2=4000;
-	v3=4000;
-	v4=4000;
+//	v1=4000;
+//	v2=4000;
+//	v3=4000;
+//	v4=4000;
 	m1_pid.SetReference(v1);
 	m2_pid.SetReference(v2);
 	m3_pid.SetReference(v3);
@@ -97,12 +97,17 @@ void NromalMode::Update(){
 	float target_current3 = m3_pid.Update(vel3);
 	float target_current4 = m4_pid.Update(vel4);
 
+//	target_current1=0;
+//	target_current2=0;
+//	target_current3=0;
+//	target_current4=0;
 	motor1.SetCurrent_mA(target_current1);
 	motor2.SetCurrent_mA(target_current2);
 	motor3.SetCurrent_mA(target_current3);
 	motor4.SetCurrent_mA(target_current4);
 
-	printf("%d,%d,%d,%d,\r\n",(int)vel1,(int)vel2,(int)vel3,(int)vel4);
+	printf("%d,%d,%d,%d,\r\n",(int)v1,(int)v2,(int)v3,(int)v4);
+	//printf("%d,%d,%d,%d,\r\n",(int)vel1,(int)vel2,(int)vel3,(int)vel4);
 	//printf("%d,%d,%d\r\n",(int)(vx_mm_s_),(int)vy_mm_s_,(int)(omega_rad_s_*1000));
 
 }
