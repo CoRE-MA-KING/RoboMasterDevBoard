@@ -7,6 +7,7 @@
 
 #include "state.h"
 #include "machine_variable.h"
+#include "stdio.h"
 
 ESWMode::ESWMode(){}
 
@@ -25,6 +26,8 @@ void ESWMode::Update(){
 	pitch_motor.SetCurrent_mA(0);
 	rollerL.SetVoltage_V(0);
 	rollerR.SetVoltage_V(0);
+	printf("!!ESW!!\r\n");
+
 }
 
 

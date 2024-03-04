@@ -50,7 +50,7 @@ private:
 public:
 	State();
 	void Init();
-	void SetMode(Mode mode){mode_=mode;};
+	void SetMode(Mode mode);
 	void ChaekEvent();
 	void Update(){machine_mode_->Update();};
 };
@@ -58,7 +58,7 @@ public:
 class MachineInitMode: public MachineMode{
 private:
 	bool finish_flag_=false;
-	const int power_on_time_ms_=2000;
+	const int kPowerOnTime_ms_=2000;
 	int power_on_timer_=0;
 	int pitch_dir_=-1;
 public:

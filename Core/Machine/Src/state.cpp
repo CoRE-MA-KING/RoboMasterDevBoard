@@ -19,8 +19,33 @@ State::State(){
 
 }
 
+void State::SetMode(Mode mode){
+	mode_=mode;
+	switch(mode_){
+	case Mode::kEmergencyStop:
+		machine_mode_=&esw_mode;
+		machine_mode_->Init();
+		break;
+	case Mode::kMachineBreak:
+		machine_mode_=&break_mode;
+		machine_mode_->Init();
+		break;
+	case Mode::kMachineInit:
+		machine_mode_=&machine_init_mode;
+		machine_mode_->Init();
+		break;
+	case Mode::kNormal:
+		machine_mode_=&normal_mode;
+		machine_mode_->Init();
+		break;
+	case Mode::kCommunicationError:
+		machine_mode_=&communication_error_mode;
+		machine_mode_->Init();
+		break;
+	}
+}
 void State::Init(){
-	machine_mode_=&machine_init_mode;;
+	machine_mode_=&machine_init_mode;
 }
 void State::ChaekEvent(){
 	event_=Event::kNone;

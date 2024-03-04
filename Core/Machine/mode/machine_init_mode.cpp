@@ -14,17 +14,19 @@ MachineInitMode::MachineInitMode(){
 void MachineInitMode::Init(){
 	finish_flag_=false;
 	power_on_timer_=0;
+	printf("MachineInitMode\r\n");
 
 	HAL_GPIO_WritePin(RELAY_GPIO_Port, RELAY_Pin, GPIO_PIN_SET);
 
 }
 void MachineInitMode::Update(){
-	if(power_on_timer_<power_on_time_ms_){
+	if(power_on_timer_<kPowerOnTime_ms_){
 		power_on_timer_++;
-		pitch_dir_=-1;
-		finish_flag_=true;
 
-		return;
+		//return;
+	}else{
+		finish_flag_=true; //TODO あとではずす
+		pitch_dir_=-1;
 	}
 
 	float pitch_vel=pitch_motor.GetVelocity_rad_s();
