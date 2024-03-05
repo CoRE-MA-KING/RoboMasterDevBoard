@@ -80,7 +80,7 @@ private:
 	int photo1_=0;
 	int pre_hoto1_=0;
 	float roller_voltage_V_=0;
-	float roller_voltage_max_V=8.0;
+	float roller_voltage_max_V=5.0;
 
 public:
 	NromalMode(){}

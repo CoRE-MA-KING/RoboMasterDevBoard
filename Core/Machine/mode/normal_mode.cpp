@@ -38,12 +38,13 @@ void NromalMode::Update(){
 	vy_mm_s_=cwcr.axis(1)*20;
 	omega_rad_s_=cwcr.axis(2)*0.01;
 
-	if(cwcr.button(1)==1){
+
+	if(cwcr.button(1)==1 && roller_voltage_V_>=roller_voltage_max_V){
 		loading_motor_ref_=4000;
 	}
 
 	const float kDelta_V=0.01;
-	if(cwcr.button(2)==1){//TODO check button
+	if(cwcr.button(0)==1){//TODO check button
 		roller_voltage_V_+=kDelta_V;
 		if(roller_voltage_V_>=roller_voltage_max_V){
 			roller_voltage_V_=roller_voltage_max_V;
@@ -54,6 +55,14 @@ void NromalMode::Update(){
 			roller_voltage_V_=0;
 		}
 	}
+
+	if(cwcr.button(5)==1){
+		roller_voltage_max_V+=kDelta_V;
+	}
+	if(cwcr.button(7)==1){
+		roller_voltage_max_V-=kDelta_V;
+	}
+
 
 	rollerL.SetVoltage_V(roller_voltage_V_);
 	rollerR.SetVoltage_V(roller_voltage_V_*0.2);
