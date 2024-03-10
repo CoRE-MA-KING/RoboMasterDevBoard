@@ -22,6 +22,7 @@
 
 void Interrupt1ms(){
 
+	buzzer.Update();
 	roller_enc_L.Update();
 	roller_enc_R.Update();
 

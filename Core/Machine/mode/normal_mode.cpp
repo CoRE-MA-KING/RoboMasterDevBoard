@@ -29,21 +29,23 @@ void NromalMode::Init(){
 	m4_pid.Reset();
 	loading_motor_pid.Reset();
 	pitch_motor_pid.Reset();
+	buzzer.SetFrequency(400,500);
 }
 void NromalMode::Update(){
 
 	//READ Wireless Controller
-
-	vx_mm_s_=cwcr.axis(0)*20;
-	vy_mm_s_=cwcr.axis(1)*20;
-	omega_rad_s_=cwcr.axis(2)*0.01;
+	float machine_velocity_max=1000;
+	float machine_omega_max=0.5;
+	vx_mm_s_=(float)cwcr.axis(0)/127.0*machine_velocity_max;
+	vy_mm_s_=(float)cwcr.axis(1)/127.0*machine_velocity_max;
+	omega_rad_s_=cwcr.axis(2)/127.0*machine_omega_max;
 
 	if(cwcr.button(1)==1){
 		loading_motor_ref_=4000;
 	}
 
-	const float kDelta_V=0.01;
-	if(cwcr.button(2)==1){//TODO check button
+	const float kDelta_V=0.02;
+	if(cwcr.button(0)==1){//TODO check button
 		roller_voltage_V_+=kDelta_V;
 		if(roller_voltage_V_>=roller_voltage_max_V){
 			roller_voltage_V_=roller_voltage_max_V;
@@ -56,7 +58,7 @@ void NromalMode::Update(){
 	}
 
 	rollerL.SetVoltage_V(roller_voltage_V_);
-	rollerR.SetVoltage_V(roller_voltage_V_*0.2);
+	rollerR.SetVoltage_V(0);
 
 	//loading motor control
 	photo1_=HAL_GPIO_ReadPin(PHOTO_SENS1_GPIO_Port, PHOTO_SENS1_Pin);
@@ -83,10 +85,6 @@ void NromalMode::Update(){
 	float vel3=motor3.GetVelocity_mm_s();
 	float vel4=motor4.GetVelocity_mm_s();
 
-//	v1=4000;
-//	v2=4000;
-//	v3=4000;
-//	v4=4000;
 	m1_pid.SetReference(v1);
 	m2_pid.SetReference(v2);
 	m3_pid.SetReference(v3);
@@ -107,8 +105,8 @@ void NromalMode::Update(){
 	motor4.SetCurrent_mA(target_current4);
 
 
-	printf("%d,%d,%d,%d,%d,\r\n",(int)(roller_voltage_V_*1000),(int)v1,(int)v2,(int)v3,(int)v4);
-	//printf("%d,%d,%d,%d,\r\n",(int)v1,(int)v2,(int)v3,(int)v4);
+//	printf("%d,%d,%d,%d,%d,\r\n",(int)(roller_voltage_V_*1000),(int)v1,(int)v2,(int)v3,(int)v4);
+	printf("%d,%d,%d,%d,%d,\r\n",(int)cwcr.axis(0),(int)v1,(int)vel1,(int)v2,(int)vel2);
 	//printf("%d,%d,%d,%d,\r\n",(int)vel1,(int)vel2,(int)vel3,(int)vel4);
 	//printf("%d,%d,%d\r\n",(int)(vx_mm_s_),(int)vy_mm_s_,(int)(omega_rad_s_*1000));
 

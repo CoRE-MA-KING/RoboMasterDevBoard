@@ -14,6 +14,7 @@ ESWMode::ESWMode(){}
 void ESWMode::Init(){
 	rollerL.SetVoltage_V(0);
 	rollerR.SetVoltage_V(0);
+	buzzer.SetFrequency(400,1000);
 
 }
 
