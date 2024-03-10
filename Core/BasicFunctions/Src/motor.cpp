@@ -39,8 +39,8 @@ void CanInterface::SendData(){
 	HAL_CAN_AddTxMessage(hcanx_, &tx_headrt, tx_data, &tx_mailbox);
 }
 
-DJI::DJI(CanInterface* can_bus,int id, int dir, float radius_mm):
-	MotorBase(dir),can_bus_(can_bus),radius_mm_(radius_mm),id_(id){
+DJI::DJI(CanInterface* can_bus,int id, int dir, float radius_mm, float _gera_ratio):
+	MotorBase(dir),can_bus_(can_bus),radius_mm_(radius_mm),id_(id),gera_ratio_(_gera_ratio){
 }
 
 void DJI::Init(){
