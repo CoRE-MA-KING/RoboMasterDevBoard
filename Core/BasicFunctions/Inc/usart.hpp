@@ -18,6 +18,8 @@
 #ifndef __USART_H_
 #define __USART_H_
 
+#include "string.h"
+
 class UsartBuffer
 {
 private:
@@ -28,13 +30,19 @@ private:
 	uint32_t wp_;
 	uint32_t nl_count_;
 
-public:
-  UsartBuffer()
-  : rp_(0)
-  , wp_(0)
-  , nl_count_(0)
-  {
-  }
+	public:
+	  UsartBuffer()
+	  : rp_(0)
+	  , wp_(0)
+	  , nl_count_(0)
+	  {
+	  }
+	  void clear(){
+		  rp_=0;
+		  wp_=0;
+		  nl_count_=0;
+		  memset(buffer_,0,sizeof(buffer_));
+	  }
   bool enqueue(unsigned char data){
 	  if(((wp_ - rp_) & (BUFFER_SIZE-1)) == (BUFFER_SIZE-1)){
 		  return false;

@@ -69,6 +69,12 @@ public:
 		}
 
   }
+  void ClearBuffer(){
+	  usart_->clear();
+	  memset(buttons_,0,sizeof(buttons_));
+	  memset(axis_,0,sizeof(axis_));
+	}
+
   bool parse(){
 
     // parse when buffer has new line code
