@@ -13,6 +13,7 @@
 #include "controller.h"
 #include "core_wireless_control_rx.hpp"
 #include "state.h"
+#include "buzzer.h"
 
 extern CanInterface can1_bus;
 extern CanInterface can2_bus;
@@ -41,6 +42,8 @@ extern Encorder roller_enc_L;
 extern uint8_t rxed_byte_data;
 extern UsartBuffer ub;
 extern CoreWirelessControlRx cwcr;
+
+extern Buzzer buzzer;
 
 extern State state;
 

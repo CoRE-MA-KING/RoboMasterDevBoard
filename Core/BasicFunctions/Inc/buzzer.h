@@ -9,6 +9,21 @@
 #define BUZZER_H_
 
 
+class Buzzer{
+private:
+	int set_time_ms_;
+	int timer_ms_;
+public:
+
+	Buzzer();
+	void Init();
+	void Update();
+	void On(float f);
+	void Off();
+	void SetFrequency(float f, int time_ms);
+
+};
+
 void setBuzzerFrequency(float frequency);
 
 

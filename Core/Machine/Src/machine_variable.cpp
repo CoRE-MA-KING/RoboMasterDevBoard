@@ -39,6 +39,7 @@ uint8_t rxed_byte_data;
 UsartBuffer ub;
 CoreWirelessControlRx cwcr(&ub);
 
+Buzzer buzzer;
 State state;
 
 
