@@ -8,6 +8,7 @@
 #ifndef _STATE_H_
 #define _STATE_H_
 
+#include "filter.h"
 
 
 enum class Event{
@@ -82,10 +83,11 @@ private:
 	float roller_voltage_V_=0;
 	float roller_voltage_max_V=10.0;
 
-	float moving_average_vx;
+	MovingAverage filter_x_;
+	MovingAverage filter_y_;
 
 public:
-	NromalMode(){}
+	NromalMode():filter_x_(50),filter_y_(50){}
 	void Init();
 	void Update();
 };

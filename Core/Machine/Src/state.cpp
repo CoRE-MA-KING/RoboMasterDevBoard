@@ -54,17 +54,17 @@ void State::ChaekEvent(){
 		event_=Event::kFinishInitMachine;
 	}
 
-	const GPIO_PinState kMachneBrake=GPIO_PIN_RESET;
-	const GPIO_PinState kMachineAlive=GPIO_PIN_SET;
+	const GPIO_PinState kMachneBrake=GPIO_PIN_SET;
+	const GPIO_PinState kMachineAlive=GPIO_PIN_RESET;
 	static GPIO_PinState pre_machine_vitale=kMachineAlive;
 	GPIO_PinState machine_vitale=HAL_GPIO_ReadPin(BREAK_SIGNAL_GPIO_Port, BREAK_SIGNAL_Pin);
 	if(pre_machine_vitale==kMachineAlive
 		&& machine_vitale==kMachneBrake){
-	//	event_=Event::kBreakSignal;
+		event_=Event::kBreakSignal;
 	}
 	if(pre_machine_vitale==kMachneBrake
 		&& machine_vitale==kMachineAlive){
-	//	event_=Event::kRevibal;
+		event_=Event::kRevibal;
 	}
 	pre_machine_vitale=machine_vitale;
 
