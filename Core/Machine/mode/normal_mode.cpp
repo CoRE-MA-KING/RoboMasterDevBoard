@@ -38,14 +38,30 @@ void NromalMode::Update(){
 	float machine_omega_max=0.5;
 	vx_mm_s_=(float)cwcr.axis(0)/127.0*machine_velocity_max;
 	vy_mm_s_=(float)cwcr.axis(1)/127.0*machine_velocity_max;
+	vx_mm_s_=filter_x_.Update(vx_mm_s_);
+	vy_mm_s_=filter_y_.Update(vy_mm_s_);
 	omega_rad_s_=cwcr.axis(2)/127.0*machine_omega_max;
 
-	if(cwcr.button(1)==1){
+	if(cwcr.button(1)==1 && roller_voltage_V_==roller_voltage_max_V){//R1
 		loading_motor_ref_=4000;
 	}
 
+	//buzzer check
+	if(cwcr.button(15)==1){//△
+		buzzer.SetFrequency(400,10);
+	}
+	//roller control
+	if(cwcr.button(6)==1){
+		roller_voltage_max_V+=0.001;
+		if(roller_voltage_max_V>15)roller_voltage_max_V=15.0;
+	}
+	if(cwcr.button(4)==1){
+		roller_voltage_max_V-=0.001;
+		if(roller_voltage_max_V<0)roller_voltage_max_V=0;
+	}
+
 	const float kDelta_V=0.02;
-	if(cwcr.button(0)==1){//TODO check button
+	if(cwcr.button(0)==1){//R2
 		roller_voltage_V_+=kDelta_V;
 		if(roller_voltage_V_>=roller_voltage_max_V){
 			roller_voltage_V_=roller_voltage_max_V;
@@ -105,10 +121,33 @@ void NromalMode::Update(){
 	motor4.SetCurrent_mA(target_current4);
 
 
-//	printf("%d,%d,%d,%d,%d,\r\n",(int)(roller_voltage_V_*1000),(int)v1,(int)v2,(int)v3,(int)v4);
-	printf("%d,%d,%d,%d,%d,\r\n",(int)cwcr.axis(0),(int)v1,(int)vel1,(int)v2,(int)vel2);
+	printf("%d,%d,%d,%d,%d,\r\n",(int)(roller_voltage_max_V*1000),(int)v1,(int)v2,(int)v3,(int)v4);
+//	printf("%d,%d,%d,%d,%d,\r\n",(int)cwcr.axis(0),(int)v1,(int)vel1,(int)v2,(int)vel2);
 	//printf("%d,%d,%d,%d,\r\n",(int)vel1,(int)vel2,(int)vel3,(int)vel4);
-	//printf("%d,%d,%d\r\n",(int)(vx_mm_s_),(int)vy_mm_s_,(int)(omega_rad_s_*1000));
+//	printf("%d,%d,%d\r\n",(int)(vx_mm_s_),(int)vy_mm_s_,(int)(omega_rad_s_*1000));
+
+/*	printf("%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d\r\n",
+		cwcr.button(0),
+		cwcr.button(1),
+		cwcr.button(2),
+		cwcr.button(3),
+		cwcr.button(4),
+		cwcr.button(5),
+		cwcr.button(6),
+		cwcr.button(7),
+		cwcr.button(8),
+		cwcr.button(9),
+		cwcr.button(10),
+		cwcr.button(11),
+		cwcr.button(12),
+		cwcr.button(13),
+		cwcr.button(14),
+		cwcr.button(15)
+		);
+
+*/
+
+//	printf("%d,%d,%d,%d,%d,%d,%d,\n",2,1,);
 
 }
 
