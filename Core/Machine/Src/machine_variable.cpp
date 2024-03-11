@@ -29,6 +29,8 @@ PID m4_pid(4.0, 0.1, 0, kControlPeriod_ms);
 PID loading_motor_pid(5.0, 0.05, 0, kControlPeriod_ms);
 PID pitch_motor_pid(1,0.01,0,kControlPeriod_ms);
 
+DJIServo pitch_servo(&pitch_motor,&pitch_motor_pid,kPitchTheta2Position);
+
 SabertoothDual rollerL(1,-1);
 SabertoothDual rollerR(2,-1);
 
@@ -42,5 +44,7 @@ CoreWirelessControlRx cwcr(&ub);
 Buzzer buzzer;
 State state;
 
+bool rec;
+bool reboot_flag;
 
 

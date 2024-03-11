@@ -29,7 +29,19 @@ void CommunicationErrorMode::Update(){
 	pitch_motor.SetCurrent_mA(0);
 	rollerL.SetVoltage_V(0);
 	rollerR.SetVoltage_V(0);
-	printf("Comm Error!\r\n");
+}
+
+void CommunicationErrorMode::Update_10ms(){
+	printf("%d,%d,%d,%d,%d,%d,%d,\r\n",
+			Mode::kCommunicationError,
+			0,
+			pitch_servo.GetPosition(),
+			0,
+			rec,
+			reboot_flag,
+			0,
+			0
+			);
 }
 
 

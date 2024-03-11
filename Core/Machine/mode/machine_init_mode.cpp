@@ -50,8 +50,18 @@ void MachineInitMode::Update(){
 	motor3.SetCurrent_mA(0);
 	motor4.SetCurrent_mA(0);
 
-	printf("init now!\r\n");
-
-
 }
 
+void MachineInitMode::Update_10ms(){
+	printf("%d,%d,%d,%d,%d,%d,%d,\r\n",
+			Mode::kMachineInit,
+			0,
+			pitch_servo.GetPosition(),
+			0,
+			rec,
+			reboot_flag,
+			0,
+			0
+			);
+
+}

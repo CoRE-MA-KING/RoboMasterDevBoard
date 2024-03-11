@@ -42,7 +42,7 @@ private:
 
 	const int kMaxCurrentData=16384;
 	const float kMaxCurrentValue_mA=20000;
-	const float kMaxPositionValue_rad=3.141592;
+	const float kMaxPositionValue_rad=2*3.141592;
 	const int kMaxPositionData=8191;
 
 	float radius_mm_;

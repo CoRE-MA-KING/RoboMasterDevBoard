@@ -21,6 +21,8 @@ void NromalMode::Init(){
 	pre_hoto1_=0;
 	roller_voltage_V_=0;
 
+	shoot_enable_=true;
+
 
 	printf("NromalMode!\r\n");
 	m1_pid.Reset();
@@ -151,4 +153,17 @@ void NromalMode::Update(){
 
 }
 
+void NromalMode::Update_10ms(){
+	printf("%d,%d,%d,%d,%d,%d,%d,\r\n",
+			Mode::kNormal,
+			shoot_enable_,
+			pitch_servo.GetPosition(),
+			roller_voltage_max_V,
+			rec,
+			reboot_flag,
+			0,
+			0
+			);
+
+}
 

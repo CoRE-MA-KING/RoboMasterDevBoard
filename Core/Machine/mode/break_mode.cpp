@@ -32,5 +32,18 @@ void BreakMode::Update(){
 	rollerR.SetVoltage_V(0);
 
 	HAL_GPIO_WritePin(RELAY_GPIO_Port, RELAY_Pin, GPIO_PIN_RESET);
-	printf("Break!\r\n");
+}
+
+void BreakMode::Update_10ms(){
+	printf("%d,%d,%d,%d,%d,%d,%d,\r\n",
+			Mode::kMachineBreak,
+			0,
+			pitch_servo.GetPosition(),
+			0,
+			rec,
+			reboot_flag,
+			0,
+			0
+			);
+
 }

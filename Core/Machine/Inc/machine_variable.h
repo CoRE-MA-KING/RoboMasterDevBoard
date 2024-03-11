@@ -14,6 +14,7 @@
 #include "core_wireless_control_rx.hpp"
 #include "state.h"
 #include "buzzer.h"
+#include "servo.h"
 
 extern CanInterface can1_bus;
 extern CanInterface can2_bus;
@@ -31,7 +32,7 @@ extern C610 loading_motor;
 extern C620 pitch_motor;
 extern PID loading_motor_pid;
 extern PID pitch_motor_pid;
-
+extern DJIServo pitch_servo;
 
 extern SabertoothDual rollerR;
 extern SabertoothDual rollerL;
@@ -46,5 +47,8 @@ extern CoreWirelessControlRx cwcr;
 extern Buzzer buzzer;
 
 extern State state;
+
+extern bool rec;
+extern bool reboot_flag;
 
 #endif /* MACHINE_VARIABLE_H_ */

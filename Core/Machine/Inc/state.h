@@ -24,13 +24,13 @@ kCommunicationOk
 };
 
 enum class Mode{
-kMPUInit,
-kMPUInitEswPushed,
-kMachineInit,
-kNormal,
-kMachineBreak,
-kEmergencyStop,
-kCommunicationError
+kMPUInit=-1,
+kMPUInitEswPushed=-2,
+kMachineInit=1,
+kNormal=2,
+kMachineBreak=3,
+kEmergencyStop=4,
+kCommunicationError=5
 };
 
 class MachineMode{
@@ -38,6 +38,7 @@ public:
 	MachineMode(){};
 	virtual void Init(){};
 	virtual void Update(){};
+	virtual void Update_10ms(){};
 };
 
 
@@ -54,6 +55,7 @@ public:
 	void SetMode(Mode mode);
 	void ChaekEvent();
 	void Update(){machine_mode_->Update();};
+	void Update10ms(){machine_mode_->Update_10ms();};
 };
 
 class MachineInitMode: public MachineMode{
@@ -66,6 +68,7 @@ public:
 	MachineInitMode();
 	void Init();
 	void Update();
+	void Update_10ms();
 	bool isFinishInit(){return finish_flag_;};
 
 };
@@ -86,10 +89,13 @@ private:
 	MovingAverage filter_x_;
 	MovingAverage filter_y_;
 
+	bool shoot_enable_=true;
+
 public:
 	NromalMode():filter_x_(50),filter_y_(50){}
 	void Init();
 	void Update();
+	void Update_10ms();
 };
 
 class ESWMode: public MachineMode{
@@ -97,6 +103,7 @@ public:
 	ESWMode();
 	void Init();
 	void Update();
+	void Update_10ms();
 };
 
 class BreakMode: public MachineMode{
@@ -104,6 +111,7 @@ public:
 	BreakMode();
 	void Init();
 	void Update();
+	void Update_10ms();
 
 };
 
@@ -112,6 +120,7 @@ public:
 	CommunicationErrorMode();
 	void Init();
 	void Update();
+	void Update_10ms();
 
 };
 

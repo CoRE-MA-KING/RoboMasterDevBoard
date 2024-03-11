@@ -36,6 +36,13 @@ void Interrupt1ms(){
 
 	state.ChaekEvent();
 
+	static int timer=0;
+	timer++;
+	if(timer>10){
+		timer=0;
+		state.Update10ms();
+	}
+
 }
 
 
