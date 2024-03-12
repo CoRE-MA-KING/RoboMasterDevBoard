@@ -7,10 +7,12 @@
 
 #include "servo.h"
 
-DJIServo::DJIServo(DJI* dji,PID* pid, float motor_theta_to_pos)
+DJIServo::DJIServo(DJI* dji,PID* pos_pid,PID* vel_pid, float motor_theta_to_pos)
 :dji_(dji),
- pid_(pid),
- motor_theta_to_pos_(motor_theta_to_pos){
+ pos_pid_(pos_pid),
+ vel_pid_(vel_pid),
+ motor_theta_to_pos_(motor_theta_to_pos),
+ control_mode_(1){
 
 }
 
@@ -20,8 +22,13 @@ void DJIServo::ResetPosition(float x){
 	x_=x;
 }
 
-void DJIServo::SetReference(float x_ref){
-	x_ref_=x_ref;
+void DJIServo::SetReferencePotition(float x_ref){
+	pos_pid_->SetReference(x_ref);
+	control_mode_=2;
+}
+void DJIServo::SetReferenceVelocity(float vel_ref){
+	vel_pid_->SetReference(vel_ref);
+	control_mode_=1;
 }
 float DJIServo::Update(){
 	float theta_rad_data=dji_->GetPotion_rad();
@@ -38,12 +45,34 @@ float DJIServo::Update(){
 
 	x_=theta_rad_*motor_theta_to_pos_;
 
-	float input=pid_->Update(x_);
+
+	switch(control_mode_){
+	case 1:
+		UpdateVelocityControl();
+		break;
+	case 2:
+		UpdatePositionControl();
+		break;
+	}
+	return x_;
+}
+
+void DJIServo::Reset(){
+	pos_pid_->Reset();
+	vel_pid_->Reset();
+}
+
+float DJIServo::UpdatePositionControl(){
+	float input=pos_pid_->Update(x_);
 	dji_->SetCurrent_mA(input);
 
-	return theta_rad_;
+}
 
+float DJIServo::UpdateVelocityControl(){
+	float input=vel_pid_->Update(dji_->GetVelocity_rad_s()*motor_theta_to_pos_);
+	dji_->SetCurrent_mA(input);
 
 }
+
 
 
