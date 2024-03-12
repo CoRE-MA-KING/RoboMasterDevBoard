@@ -84,7 +84,8 @@ private:
 	int photo1_=0;
 	int pre_hoto1_=0;
 	float roller_voltage_V_=0;
-	float roller_voltage_max_V=10.0;
+	float roller_voltage_max_V_=10.0;
+	float target_pitch_pos_=0;
 
 	MovingAverage filter_x_;
 	MovingAverage filter_y_;

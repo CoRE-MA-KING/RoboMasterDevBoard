@@ -32,10 +32,10 @@ void CommunicationErrorMode::Update(){
 }
 
 void CommunicationErrorMode::Update_10ms(){
-	printf("%d,%d,%d,%d,%d,%d,%d,\r\n",
-			Mode::kCommunicationError,
+	printf("%d,%d,%d,%d,%d,%d,%d,%d,\r\n",
+			(int)Mode::kCommunicationError,
 			0,
-			pitch_servo.GetPosition(),
+			(int)(pitch_servo.GetPosition()*10),
 			0,
 			rec,
 			reboot_flag,

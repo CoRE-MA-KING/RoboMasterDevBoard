@@ -34,10 +34,10 @@ void ESWMode::Update(){
 }
 
 void ESWMode::Update_10ms(){
-	printf("%d,%d,%d,%d,%d,%d,%d,\r\n",
-			Mode::kEmergencyStop,
+	printf("%d,%d,%d,%d,%d,%d,%d,%d,\r\n",
+			(int)Mode::kEmergencyStop,
 			0,
-			pitch_servo.GetPosition(),
+			(int)(pitch_servo.GetPosition()*10),
 			0,
 			rec,
 			reboot_flag,
