@@ -48,7 +48,7 @@ void MachineInitMode::Update(){
 }
 
 void MachineInitMode::Update_10ms(){
-	printf("%d,%d,%d,%d,%d,%d,%d,%d,\r\n",
+	printf("%d,%d,%d,%d,%d,%d,%d,%d,\n",
 			(int)Mode::kMachineInit,
 			0,
 			(int)(pitch_servo.GetPosition()*10),

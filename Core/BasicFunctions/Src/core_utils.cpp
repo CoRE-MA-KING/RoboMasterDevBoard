@@ -36,8 +36,6 @@ void Init(){
 
 
 	char s[128];
-	int n=sprintf(s,"MA-KING RoboMaster Board\r\n");
-	CDC_Transmit_FS((uint8_t*)s, n);
 	buzzer.Init();
 	rollerL.Init();
 	rollerR.Init();

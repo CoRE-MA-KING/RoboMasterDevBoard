@@ -16,4 +16,6 @@ const float kControlPeriod_ms = 1.0;
 const float kRollerRadius_mm = 14.3; //28.6/2 [mm]
 
 const float kPitchTheta2Position = 187.0/3591.0 * 2.0;
+
+const int kMaxFrisbeeNum = 24;
 #endif /* MACHINE_CONSTANT_HPP_ */

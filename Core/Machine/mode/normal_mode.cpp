@@ -92,6 +92,8 @@ void NromalMode::Update(){
 	photo1_=HAL_GPIO_ReadPin(PHOTO_SENS1_GPIO_Port, PHOTO_SENS1_Pin);
 	if(photo1_==1 && pre_hoto1_==0){
 		loading_motor_ref_=0;
+		frisbee_num_--;
+		if(frisbee_num_<0)frisbee_num_=0;
 	}
 	pre_hoto1_=photo1_;
 
@@ -133,8 +135,9 @@ void NromalMode::Update(){
 	motor4.SetCurrent_mA(target_current4);
 
 
-	printf("%d,%d,%d,%d,%d,\r\n",(int)(roller_voltage_max_V_*1000),(int)v1,(int)v2,(int)v3,(int)v4);
-//	printf("%d,%d,%d,%d,%d,\r\n",(int)cwcr.axis(0),(int)v1,(int)vel1,(int)v2,(int)vel2);
+//	printf("%d,%d,%d,%d,%d,\r\n",(int)(roller_voltage_max_V_*1000),(int)v1,(int)v2,(int)v3,(int)v4);
+
+	//	printf("%d,%d,%d,%d,%d,\r\n",(int)cwcr.axis(0),(int)v1,(int)vel1,(int)v2,(int)vel2);
 	//printf("%d,%d,%d,%d,\r\n",(int)vel1,(int)vel2,(int)vel3,(int)vel4);
 //	printf("%d,%d,%d\r\n",(int)(vx_mm_s_),(int)vy_mm_s_,(int)(omega_rad_s_*1000));
 
@@ -164,14 +167,14 @@ void NromalMode::Update(){
 }
 
 void NromalMode::Update_10ms(){
-	printf("%d,%d,%d,%d,%d,%d,%d,\r\n",
-			Mode::kNormal,
+	printf("%d,%d,%d,%d,%d,%d,%d,%d,\n",
+			(int)Mode::kNormal,
 			shoot_enable_,
-			pitch_servo.GetPosition(),
-			roller_voltage_max_V_,
+			(int)pitch_servo.GetPosition(),
+			(int)roller_voltage_max_V_,
 			rec,
 			reboot_flag,
-			0,
+			frisbee_num_,
 			0
 			);
 

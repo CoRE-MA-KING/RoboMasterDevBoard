@@ -19,7 +19,6 @@ void CommunicationErrorMode::Init(){
 }
 
 void CommunicationErrorMode::Update(){
-	cwcr.ClearBuffer();
 
 	motor1.SetCurrent_mA(0);
 	motor2.SetCurrent_mA(0);
@@ -32,7 +31,15 @@ void CommunicationErrorMode::Update(){
 }
 
 void CommunicationErrorMode::Update_10ms(){
-	printf("%d,%d,%d,%d,%d,%d,%d,%d,\r\n",
+	static int clear_flag=0;
+
+	clear_flag++;
+	if(clear_flag>10){
+		cwcr.ClearBuffer();
+		clear_flag=0;
+	}
+
+	printf("%d,%d,%d,%d,%d,%d,%d,%d,\n",
 			(int)Mode::kCommunicationError,
 			0,
 			(int)(pitch_servo.GetPosition()*10),

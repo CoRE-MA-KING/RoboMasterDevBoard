@@ -9,7 +9,7 @@
 #define _STATE_H_
 
 #include "filter.h"
-
+#include "machine_constant.hpp"
 
 enum class Event{
 kNone,
@@ -91,9 +91,10 @@ private:
 	MovingAverage filter_y_;
 
 	bool shoot_enable_=true;
+	int frisbee_num_;
 
 public:
-	NromalMode():filter_x_(50),filter_y_(50){}
+	NromalMode():filter_x_(50),filter_y_(50),frisbee_num_(kMaxFrisbeeNum){}
 	void Init();
 	void Update();
 	void Update_10ms();

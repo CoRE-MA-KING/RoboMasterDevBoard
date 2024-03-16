@@ -20,6 +20,11 @@ void ESWMode::Init(){
 }
 
 void ESWMode::Update(){
+	if(cwcr.button(15)==1){
+		buzzer.SetFrequency(400,10);
+	}
+
+
 	motor1.SetCurrent_mA(0);
 	motor2.SetCurrent_mA(0);
 	motor3.SetCurrent_mA(0);
@@ -34,7 +39,8 @@ void ESWMode::Update(){
 }
 
 void ESWMode::Update_10ms(){
-	printf("%d,%d,%d,%d,%d,%d,%d,%d,\r\n",
+
+	printf("%d,%d,%d,%d,%d,%d,%d,%d,\n",
 			(int)Mode::kEmergencyStop,
 			0,
 			(int)(pitch_servo.GetPosition()*10),
@@ -44,7 +50,6 @@ void ESWMode::Update_10ms(){
 			0,
 			0
 			);
-
 }
 
 

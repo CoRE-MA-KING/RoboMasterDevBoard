@@ -38,7 +38,7 @@ void Interrupt1ms(){
 
 	static int timer=0;
 	timer++;
-	if(timer>10){
+	if(timer>100){
 		timer=0;
 		state.Update10ms();
 	}
