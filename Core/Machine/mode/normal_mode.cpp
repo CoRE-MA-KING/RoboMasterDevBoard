@@ -50,6 +50,21 @@ void NromalMode::Update(){
 	if(cwcr.button(15)==1){//△
 		buzzer.SetFrequency(400,10);
 	}
+	//reload fresbee
+	if(cwcr.button(10)==1){//share
+		buzzer.SetFrequency(350,20);
+		rec=true;
+	}
+	if(cwcr.button(11)==1){//option
+		buzzer.SetFrequency(350,20);
+		rec=false;
+	}
+	if(cwcr.button(12)==1){//sqare
+		buzzer.SetFrequency(350,10);
+		frisbee_num_=kMaxFrisbeeNum;
+
+	}
+
 	//pitch control
 	const float kDeltaPos=1.0;
 	const float kPitchPosMax=20.0;
