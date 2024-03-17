@@ -27,7 +27,9 @@ void DJIServo::SetReferencePotition(float x_ref){
 	control_mode_=2;
 }
 void DJIServo::SetReferenceVelocity(float vel_ref){
-	vel_pid_->SetReference(vel_ref);
+	dji_->SetCurrent_mA(vel_ref);
+
+//	vel_pid_->SetReference(vel_ref);
 	control_mode_=1;
 }
 float DJIServo::Update(){
@@ -64,13 +66,13 @@ void DJIServo::Reset(){
 
 float DJIServo::UpdatePositionControl(){
 	float input=pos_pid_->Update(x_);
-	dji_->SetCurrent_mA(input);
+//	dji_->SetCurrent_mA(input);
 
 }
 
 float DJIServo::UpdateVelocityControl(){
 	float input=vel_pid_->Update(dji_->GetVelocity_rad_s()*motor_theta_to_pos_);
-	dji_->SetCurrent_mA(input);
+//	dji_->SetCurrent_mA(input);
 
 }
 

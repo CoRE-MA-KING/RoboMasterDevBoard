@@ -16,6 +16,7 @@ private:
 public:
 	MovingAverage(int length);
 	float Update(float input);
+	void ClearBuffer();
 
 };
 

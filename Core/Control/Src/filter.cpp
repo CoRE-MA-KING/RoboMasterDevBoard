@@ -23,5 +23,12 @@ float MovingAverage::Update(float input){
 	return sum_/buffer_length_;
 }
 
+void MovingAverage::ClearBuffer(){
+	for(int i=0;i<buffer_length_;i++){
+		buffer_[i]=0;
+	}
+
+}
+
 
 

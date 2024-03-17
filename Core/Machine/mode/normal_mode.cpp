@@ -29,6 +29,9 @@ void NromalMode::Init(){
 	m4_pid.Reset();
 	loading_motor_pid.Reset();
 	pitch_servo.Reset();
+	filter_x_.ClearBuffer();
+	filter_y_.ClearBuffer();
+
 	buzzer.SetFrequency(400,500);
 }
 void NromalMode::Update(){
@@ -46,6 +49,14 @@ void NromalMode::Update(){
 		loading_motor_ref_=4000;
 	}
 
+	// change video
+	if(cwcr.button(2)==1){
+		video_id=0;
+	}else if(cwcr.button(3)==1){
+		video_id=2;
+	}else{
+		video_id=1;
+	}
 	//buzzer check
 	if(cwcr.button(15)==1){//△
 		buzzer.SetFrequency(400,10);
@@ -68,15 +79,21 @@ void NromalMode::Update(){
 	//pitch control
 	const float kDeltaPos=1.0;
 	const float kPitchPosMax=20.0;
+	pitch_servo.SetReferenceVelocity(0);
+
 	if(cwcr.button(7)==1){
 		target_pitch_pos_+=kDeltaPos;
 		if(target_pitch_pos_>kPitchPosMax)target_pitch_pos_=kPitchPosMax;
+		pitch_servo.SetReferenceVelocity(2000);
+
 	}
 	if(cwcr.button(5)==1){
 		target_pitch_pos_-=kDeltaPos;
 		if(target_pitch_pos_<-kPitchPosMax)target_pitch_pos_=-kPitchPosMax;
+		pitch_servo.SetReferenceVelocity(-2000);
 	}
-	pitch_servo.SetReferencePotition(target_pitch_pos_);
+
+	//pitch_servo.SetReferencePotition(target_pitch_pos_);
 	//roller control
 	if(cwcr.button(6)==1){
 		roller_voltage_max_V_+=0.001;
@@ -150,7 +167,9 @@ void NromalMode::Update(){
 	motor4.SetCurrent_mA(target_current4);
 
 
-//	printf("%d,%d,%d,%d,%d,\r\n",(int)(roller_voltage_max_V_*1000),(int)v1,(int)v2,(int)v3,(int)v4);
+//	printf("%d,%d,%d\n",(int)(v1),(int)vel1,(int)target_current1);
+
+	//	printf("%d,%d,%d,%d,%d,\r\n",(int)(roller_voltage_max_V_*1000),(int)v1,(int)v2,(int)v3,(int)v4);
 
 	//	printf("%d,%d,%d,%d,%d,\r\n",(int)cwcr.axis(0),(int)v1,(int)vel1,(int)v2,(int)vel2);
 	//printf("%d,%d,%d,%d,\r\n",(int)vel1,(int)vel2,(int)vel3,(int)vel4);
@@ -182,6 +201,7 @@ void NromalMode::Update(){
 }
 
 void NromalMode::Update_10ms(){
+//*
 	printf("%d,%d,%d,%d,%d,%d,%d,%d,\n",
 			(int)Mode::kNormal,
 			shoot_enable_,
@@ -190,8 +210,8 @@ void NromalMode::Update_10ms(){
 			rec,
 			reboot_flag,
 			frisbee_num_,
-			0
+			video_id
 			);
-
+//*/
 }
 

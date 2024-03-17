@@ -20,6 +20,17 @@ void MachineInitMode::Init(){
 
 }
 void MachineInitMode::Update(){
+
+	// change video
+	if(cwcr.button(2)==1){
+		video_id=0;
+	}else if(cwcr.button(3)==1){
+		video_id=2;
+	}else{
+		video_id=1;
+	}
+
+
 	if(power_on_timer_<kPowerOnTime_ms_){
 		power_on_timer_++;
 
@@ -56,7 +67,7 @@ void MachineInitMode::Update_10ms(){
 			rec,
 			reboot_flag,
 			0,
-			0
+			video_id
 			);
 
 }

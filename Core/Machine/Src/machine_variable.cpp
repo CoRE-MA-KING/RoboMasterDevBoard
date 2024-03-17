@@ -21,10 +21,10 @@ C610 loading_motor(&can2_bus,1,1,1);
 C620 pitch_motor(&can2_bus,2,1,1);
 
 
-PID m1_pid(4.0, 0.1, 0, kControlPeriod_ms);
-PID m2_pid(4.0, 0.1, 0, kControlPeriod_ms);
-PID m3_pid(4.0, 0.1, 0, kControlPeriod_ms);
-PID m4_pid(4.0, 0.1, 0, kControlPeriod_ms);
+PID m1_pid(15.0, 8.0, 0, kControlPeriod_ms);
+PID m2_pid(15.0, 8.0, 0, kControlPeriod_ms);
+PID m3_pid(15.0, 8.0, 0, kControlPeriod_ms);
+PID m4_pid(15.0, 8.0, 0, kControlPeriod_ms);
 
 PID loading_motor_pid(5.0, 0.05, 0, kControlPeriod_ms);
 PID pitch_motor_pos_pid(1,0.01,0,kControlPeriod_ms);
@@ -47,5 +47,5 @@ State state;
 
 bool rec;
 bool reboot_flag;
-
+int video_id;
 

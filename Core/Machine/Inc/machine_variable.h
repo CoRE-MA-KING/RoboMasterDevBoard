@@ -50,5 +50,5 @@ extern State state;
 
 extern bool rec;
 extern bool reboot_flag;
-
+extern int video_id;
 #endif /* MACHINE_VARIABLE_H_ */

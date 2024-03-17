@@ -94,7 +94,7 @@ private:
 	int frisbee_num_;
 
 public:
-	NromalMode():filter_x_(50),filter_y_(50),frisbee_num_(kMaxFrisbeeNum){}
+	NromalMode():filter_x_(400),filter_y_(400),frisbee_num_(kMaxFrisbeeNum){}
 	void Init();
 	void Update();
 	void Update_10ms();
