@@ -22,9 +22,11 @@
 
 void Interrupt1ms(){
 
+	buzzer.Update();
 	roller_enc_L.Update();
 	roller_enc_R.Update();
 
+	pitch_servo.Update();
 
 	cwcr.Update();
 
@@ -34,6 +36,13 @@ void Interrupt1ms(){
 	can2_bus.SendData();
 
 	state.ChaekEvent();
+
+	static int timer=0;
+	timer++;
+	if(timer>100){
+		timer=0;
+		state.Update10ms();
+	}
 
 }
 

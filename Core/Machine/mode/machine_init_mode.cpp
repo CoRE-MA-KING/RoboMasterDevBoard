@@ -14,12 +14,23 @@ MachineInitMode::MachineInitMode(){
 void MachineInitMode::Init(){
 	finish_flag_=false;
 	power_on_timer_=0;
-	printf("MachineInitMode\r\n");
 
 	HAL_GPIO_WritePin(RELAY_GPIO_Port, RELAY_Pin, GPIO_PIN_SET);
+	pitch_servo.Reset();
 
 }
 void MachineInitMode::Update(){
+
+	// change video
+	if(cwcr.button(2)==1){
+		video_id=0;
+	}else if(cwcr.button(3)==1){
+		video_id=2;
+	}else{
+		video_id=1;
+	}
+
+
 	if(power_on_timer_<kPowerOnTime_ms_){
 		power_on_timer_++;
 
@@ -29,20 +40,15 @@ void MachineInitMode::Update(){
 		pitch_dir_=-1;
 	}
 
-	float pitch_vel=pitch_motor.GetVelocity_rad_s();
-	pitch_motor_pid.SetReference(pitch_dir_*1);
-
-	int pitch_current_mA=(int)pitch_motor.GetCurrent_mA();
-	float target_pitch_current_mA=pitch_motor_pid.Update(pitch_vel);
+	pitch_servo.SetReferenceVelocity(pitch_dir_*1.0);
+	pitch_servo.Update();
 
 	if(HAL_GPIO_ReadPin(PHOTO_SENS2_GPIO_Port, PHOTO_SENS2_Pin)==GPIO_PIN_SET){
 		pitch_dir_=1;
 	}
 	if(pitch_dir_==1 && HAL_GPIO_ReadPin(PHOTO_SENS2_GPIO_Port, PHOTO_SENS2_Pin)==GPIO_PIN_RESET){
-		target_pitch_current_mA=0;
 		finish_flag_=true;
 	}
-	pitch_motor.SetCurrent_mA(target_pitch_current_mA);
 
 
 	motor1.SetCurrent_mA(0);
@@ -50,8 +56,18 @@ void MachineInitMode::Update(){
 	motor3.SetCurrent_mA(0);
 	motor4.SetCurrent_mA(0);
 
-	printf("init now!\r\n");
-
-
 }
 
+void MachineInitMode::Update_10ms(){
+	printf("%d,%d,%d,%d,%d,%d,%d,%d,\n",
+			(int)Mode::kMachineInit,
+			0,
+			(int)(pitch_servo.GetPosition()*10),
+			0,
+			rec,
+			reboot_flag,
+			0,
+			video_id
+			);
+
+}

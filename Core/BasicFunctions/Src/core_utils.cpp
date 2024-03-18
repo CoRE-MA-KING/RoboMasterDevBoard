@@ -34,15 +34,19 @@ void Init(){
 	HAL_GPIO_WritePin(LED7_GPIO_Port, LED7_Pin, GPIO_PIN_SET); HAL_Delay(100);
 	HAL_GPIO_WritePin(LED8_GPIO_Port, LED8_Pin, GPIO_PIN_SET); HAL_Delay(100);
 
-	char s[128];
-	int n=sprintf(s,"MA-KING RoboMaster Board\r\n");
-	CDC_Transmit_FS((uint8_t*)s, n);
 
+	char s[128];
+	buzzer.Init();
 	rollerL.Init();
 	rollerR.Init();
 	rollerL.SetVoltage_V(0);
 	rollerR.SetVoltage_V(0);
 	state.Init();
+
+	buzzer.On(400);
+	HAL_Delay(200);
+	buzzer.Off();
+
 
 	HAL_GPIO_WritePin(RELAY_GPIO_Port, RELAY_Pin, GPIO_PIN_SET);
 	HAL_GPIO_WritePin(POWER1_CTRL_GPIO_Port, POWER1_CTRL_Pin, GPIO_PIN_SET);
@@ -51,10 +55,9 @@ void Init(){
 	HAL_GPIO_WritePin(POWER4_CTRL_GPIO_Port, POWER4_CTRL_Pin, GPIO_PIN_SET);
 
 	HAL_Delay(2000);
-	HAL_TIM_PWM_Start(&htim12, TIM_CHANNEL_1);
-	for(int f=400;f<800;f+=10){
-		setBuzzerFrequency(f);
-		HAL_Delay(5);
+	for(int f=300;f<=500;f+=50){
+		buzzer.On(f);
+		HAL_Delay(100);
 	}
 	setBuzzerFrequency(-1);
 

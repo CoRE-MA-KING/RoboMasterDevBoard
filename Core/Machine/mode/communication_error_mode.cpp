@@ -15,9 +15,11 @@ CommunicationErrorMode::CommunicationErrorMode(){
 void CommunicationErrorMode::Init(){
 	rollerL.SetVoltage_V(0);
 	rollerR.SetVoltage_V(0);
+	cwcr.ClearBuffer();
 }
 
 void CommunicationErrorMode::Update(){
+
 	motor1.SetCurrent_mA(0);
 	motor2.SetCurrent_mA(0);
 	motor3.SetCurrent_mA(0);
@@ -26,7 +28,27 @@ void CommunicationErrorMode::Update(){
 	pitch_motor.SetCurrent_mA(0);
 	rollerL.SetVoltage_V(0);
 	rollerR.SetVoltage_V(0);
-	printf("Comm Error!\r\n");
+}
+
+void CommunicationErrorMode::Update_10ms(){
+	static int clear_flag=0;
+
+	clear_flag++;
+	if(clear_flag>10){
+		cwcr.ClearBuffer();
+		clear_flag=0;
+	}
+
+	printf("%d,%d,%d,%d,%d,%d,%d,%d,\n",
+			(int)Mode::kCommunicationError,
+			0,
+			(int)(pitch_servo.GetPosition()*10),
+			0,
+			rec,
+			reboot_flag,
+			0,
+			0
+			);
 }
 
 

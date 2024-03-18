@@ -69,6 +69,12 @@ public:
 		}
 
   }
+  void ClearBuffer(){
+	  usart_->clear();
+	  memset(buttons_,0,sizeof(buttons_));
+	  memset(axis_,0,sizeof(axis_));
+	}
+
   bool parse(){
 
     // parse when buffer has new line code
@@ -120,6 +126,25 @@ public:
 	  if(i < 5) return axis_[i];
 	  return 0;
   }
+  /*
+0 R2
+1 R1
+2 L2
+3 L1
+4 left
+5 down
+6 right
+7 up
+8 right push
+9 left push
+10 share
+11 option
+12 sqare
+13 x
+14 o
+15 triangle
+   *
+   */
   bool button(uint8_t i){
 	  if(i < 16) return buttons_[i];
 	  return 0;
