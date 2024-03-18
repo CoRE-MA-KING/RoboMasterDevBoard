@@ -26,6 +26,7 @@ void Interrupt1ms(){
 	roller_enc_L.Update();
 	roller_enc_R.Update();
 
+	pitch_servo.Update();
 
 	cwcr.Update();
 
