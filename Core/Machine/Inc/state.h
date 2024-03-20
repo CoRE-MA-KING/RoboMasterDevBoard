@@ -61,9 +61,11 @@ public:
 class MachineInitMode: public MachineMode{
 private:
 	bool finish_flag_=false;
-	const int kPowerOnTime_ms_=2000;
+	bool reset_flag_=false;
+	const int kPowerOnTime_ms_=3000;
 	int power_on_timer_=0;
 	int pitch_dir_=-1;
+
 public:
 	MachineInitMode();
 	void Init();
@@ -84,6 +86,11 @@ private:
 	int photo1_=0;
 	int pre_hoto1_=0;
 	float roller_voltage_V_=0;
+	float roller_l_target_velocity_mm_s_=0;
+	float roller_r_target_velocity_mm_s_=0;
+	float roller_target_velocity_max_mm_s_=10000;
+	const float kRollerVelocityUnderLimit_mm_s =5000;
+	const float kRollerVelocityLimit_mm_s =15000;
 	float roller_voltage_max_V_=10.0;
 	float target_pitch_pos_=0;
 

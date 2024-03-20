@@ -57,6 +57,7 @@ public:
 	float GetVelocity_rad_s();
 	float GetTemp_degC();
 	float GetVelocity_mm_s();
+	float GetGeraRation(){return gera_ratio_;}
 };
 
 class C620 :public DJI{

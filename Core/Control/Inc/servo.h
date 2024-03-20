@@ -31,6 +31,7 @@ public:
 	void ResetPosition(float x);
 	void SetReferencePotition(float x_ref);
 	void SetReferenceVelocity(float vel_ref);
+	float GetVelocity(){return dji_->GetVelocity_rad_s()*motor_theta_to_pos_;}
 	float GetPosition(){return x_;}
 	float Update();
 	void Reset();

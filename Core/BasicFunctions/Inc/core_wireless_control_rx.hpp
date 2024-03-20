@@ -57,7 +57,7 @@ public:
 	  return communication_error;
   }
   void Update(){
-		const int cwcr_counter_threshold_ms=200;
+		const int cwcr_counter_threshold_ms=500;
 		if(parse() == true){
 			cwcr_counter_ms=0;
 			communication_error=false;

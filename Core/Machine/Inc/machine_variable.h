@@ -28,6 +28,9 @@ extern PID m2_pid;
 extern PID m3_pid;
 extern PID m4_pid;
 
+extern PID roller_l_pid;
+extern PID roller_r_pid;
+
 extern C610 loading_motor;
 extern C620 pitch_motor;
 extern PID loading_motor_pid;

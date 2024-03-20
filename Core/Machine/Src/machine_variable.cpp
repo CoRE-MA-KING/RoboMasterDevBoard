@@ -26,9 +26,12 @@ PID m2_pid(15.0, 8.0, 0, kControlPeriod_ms);
 PID m3_pid(15.0, 8.0, 0, kControlPeriod_ms);
 PID m4_pid(15.0, 8.0, 0, kControlPeriod_ms);
 
+PID roller_l_pid(0.0016, 0.05, 0, kControlPeriod_ms);
+PID roller_r_pid(0.0016, 0.05, 0, kControlPeriod_ms);
+
 PID loading_motor_pid(5.0, 0.05, 0, kControlPeriod_ms);
-PID pitch_motor_pos_pid(1,0.01,0,kControlPeriod_ms);
-PID pitch_motor_vel_pid(1,0.01,0,kControlPeriod_ms);
+PID pitch_motor_pos_pid(1,0.0,0,kControlPeriod_ms);
+PID pitch_motor_vel_pid(400,800.0,0,kControlPeriod_ms);
 
 DJIServo pitch_servo(&pitch_motor,&pitch_motor_pos_pid,&pitch_motor_vel_pid,kPitchTheta2Position);
 
