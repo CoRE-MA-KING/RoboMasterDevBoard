@@ -20,19 +20,6 @@ void ESWMode::Init(){
 }
 
 void ESWMode::Update(){
-	if(cwcr.button(15)==1){
-		buzzer.SetFrequency(400,10);
-	}
-
-	// change video
-	if(cwcr.button(2)==1){
-		video_id=0;
-	}else if(cwcr.button(3)==1){
-		video_id=2;
-	}else{
-		video_id=1;
-	}
-
 
 	motor1.SetCurrent_mA(0);
 	motor2.SetCurrent_mA(0);

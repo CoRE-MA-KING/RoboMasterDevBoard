@@ -41,6 +41,23 @@ void NromalMode::Update(){
 	//READ Wireless Controller
 	float machine_velocity_max=1000;
 	float machine_omega_max=0.5;
+	if(cwcr.button(14)==1){
+		run_speed_=RunSpeed::fast;
+	}
+	if(cwcr.button(13)==1){//x
+		run_speed_=RunSpeed::slow;
+	}
+	switch(run_speed_){//o
+	case RunSpeed::fast:
+		machine_velocity_max=1000;
+		machine_omega_max=0.5;
+		break;
+	case RunSpeed::slow:
+		machine_velocity_max=300;
+		machine_omega_max=0.2;
+		break;
+
+	}
 	vx_mm_s_=(float)cwcr.axis(0)/127.0*machine_velocity_max;
 	vy_mm_s_=(float)cwcr.axis(1)/127.0*machine_velocity_max;
 	vx_mm_s_=filter_x_.Update(vx_mm_s_);
@@ -55,23 +72,10 @@ void NromalMode::Update(){
 	}else{
 		video_id=1;
 	}
-	//buzzer check
-	if(cwcr.button(15)==1){//△
-		buzzer.SetFrequency(400,10);
-	}
-	//reload fresbee
-	if(cwcr.button(10)==1){//share
-		buzzer.SetFrequency(350,20);
-		rec=true;
-	}
-	if(cwcr.button(11)==1){//option
-		buzzer.SetFrequency(350,20);
-		rec=false;
-	}
+
 	if(cwcr.button(12)==1){//sqare
 		buzzer.SetFrequency(350,10);
 		frisbee_num_=kMaxFrisbeeNum;
-
 	}
 
 	//pitch control
@@ -108,13 +112,17 @@ void NromalMode::Update(){
 	}
 
 	roller_l_pid.SetReference(roller_l_target_velocity_mm_s_);
-	float roller_l_voltage_V=roller_l_pid.Update(roller_enc_L.GetVelicty_mm_s());
+	roller_r_pid.SetReference(roller_l_target_velocity_mm_s_*0.1);
 
-	if(roller_l_voltage_V>15)roller_l_voltage_V=18;
+	float roller_l_voltage_V=roller_l_pid.Update(roller_enc_L.GetVelicty_mm_s());
+	float roller_r_voltage_V=roller_r_pid.Update(roller_enc_R.GetVelicty_mm_s());
+
+	if(roller_l_voltage_V>20)roller_l_voltage_V=20;
+	if(roller_r_voltage_V>20)roller_r_voltage_V=20;
 
 //	rollerL.SetVoltage_V(0);
 	rollerL.SetVoltage_V(roller_l_voltage_V);
-	rollerR.SetVoltage_V(0);
+	rollerR.SetVoltage_V(roller_r_voltage_V);
 
 	if(cwcr.button(6)==1){
 		roller_target_velocity_max_mm_s_+=10;
@@ -181,13 +189,14 @@ void NromalMode::Update(){
 	motor3.SetCurrent_mA(target_current3);
 	motor4.SetCurrent_mA(target_current4);
 
-	printf("%d,%d,%d,%d,%d\r\n",
-			(int)((int)pitch_servo.GetPosition()),
-			(int)roller_enc_L.GetVelicty_mm_s(),
-			(int)roller_l_target_velocity_mm_s_,
-			(int)(roller_l_voltage_V*1000),
-			(int)(roller_target_velocity_max_mm_s_)
-	);
+//	printf("%d,%d\r\n",
+//			(int)((int)pitch_servo.GetPosition()),
+//			(int)(10*PitchLiner2Angle_deg(pitch_servo.GetPosition()))
+//			(int)roller_enc_L.GetVelicty_mm_s(),
+//			(int)roller_l_target_velocity_mm_s_,
+//			(int)(roller_l_voltage_V*1000),
+//			(int)(roller_target_velocity_max_mm_s_)
+//	);
 
 
 //	printf("%d,%d,%d\n",(int)(v1),(int)vel1,(int)target_current1);
@@ -224,12 +233,12 @@ void NromalMode::Update(){
 }
 
 void NromalMode::Update_10ms(){
-/*
+//*
 	printf("%d,%d,%d,%d,%d,%d,%d,%d,\n",
 			(int)Mode::kNormal,
 			shoot_enable_,
 			(int)pitch_servo.GetPosition(),
-			(int)roller_voltage_max_V_,
+			(int)roller_target_velocity_max_mm_s_,
 			rec,
 			reboot_flag,
 			frisbee_num_,

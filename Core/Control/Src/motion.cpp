@@ -17,4 +17,9 @@ void MecanumWheelJacobian(float vx, float vy, float omega, float* v1,float* v2,f
 
 }
 
+float PitchLiner2Angle_deg(float pos){
+	float offset=10;
+	float x=pos-offset;
+	return 5e-5*x*x*x+0.0072*x*x+0.5277*x-0.0487;
+}
 

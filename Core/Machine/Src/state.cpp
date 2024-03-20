@@ -92,6 +92,9 @@ void State::ChaekEvent(){
 		event_=Event::kEswRelease;
 	}
 	pre_ESW=ESW;
+	if(cwcr.CheckESW()){
+		event_=Event::kEswPush;
+	}
 
 
 //////////

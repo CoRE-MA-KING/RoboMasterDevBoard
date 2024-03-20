@@ -14,6 +14,8 @@ MachineInitMode::MachineInitMode(){
 void MachineInitMode::Init(){
 	finish_flag_=false;
 	power_on_timer_=0;
+	pitch_dir_=-1;
+
 	rollerL.SetVoltage_V(0);
 	rollerR.SetVoltage_V(0);
 
@@ -22,15 +24,6 @@ void MachineInitMode::Init(){
 
 }
 void MachineInitMode::Update(){
-
-	// change video
-	if(cwcr.button(2)==1){
-		video_id=0;
-	}else if(cwcr.button(3)==1){
-		video_id=2;
-	}else{
-		video_id=1;
-	}
 
 	motor1.SetCurrent_mA(0);
 	motor2.SetCurrent_mA(0);
@@ -50,23 +43,25 @@ void MachineInitMode::Update(){
 		power_on_timer_++;
 
 		return;
+	}else if(reset_flag_){
+		finish_flag_=true;
 	}else{
-//		finish_flag_=true; //TODO あとではずす
-		pitch_dir_=-1;
+		pitch_servo.SetReferenceVelocity(pitch_dir_*2);
 	}
 
 	if(HAL_GPIO_ReadPin(PHOTO_SENS2_GPIO_Port, PHOTO_SENS2_Pin)==GPIO_PIN_RESET){
-		pitch_servo.SetReferenceVelocity(2);
+		pitch_dir_=1;
+		pitch_servo.SetReferenceVelocity(0);
 		pitch_servo.ResetPosition(0);
 		reset_flag_=true;
 	}
-	if(reset_flag_ && pitch_servo.GetPosition()>30.0){
+	if(reset_flag_ && pitch_servo.GetPosition()>10.0){
 		finish_flag_=true;
 
 	}
 
 
-	printf("%d,%d,%d,\n",HAL_GPIO_ReadPin(PHOTO_SENS2_GPIO_Port, PHOTO_SENS2_Pin),(int)pitch_servo.GetPosition(),(int)(pitch_servo.GetVelocity()));
+	//printf("%d,%d,%d,\n",HAL_GPIO_ReadPin(PHOTO_SENS2_GPIO_Port, PHOTO_SENS2_Pin),(int)pitch_servo.GetPosition(),(int)(pitch_servo.GetVelocity()));
 
 
 }

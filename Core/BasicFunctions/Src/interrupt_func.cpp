@@ -30,6 +30,36 @@ void Interrupt1ms(){
 
 	cwcr.Update();
 
+	// change video
+	if(cwcr.button(2)==1){
+		video_id=0;
+	}else if(cwcr.button(3)==1){
+		video_id=2;
+	}else{
+		video_id=1;
+	}
+
+	//buzzer check
+	if(cwcr.button(15)==1){//△
+		buzzer.SetFrequency(400,10);
+	}
+	//reload fresbee
+	if(cwcr.button(10)==1){//share
+		buzzer.SetFrequency(350,20);
+		rec=true;
+	}
+	if(cwcr.button(11)==1){//option
+		buzzer.SetFrequency(350,20);
+		rec=false;
+	}
+
+	if(cwcr.button(12)==1 && cwcr.button(13)==1 && cwcr.button(13)==1 && cwcr.button(15)==1){//o x
+
+		buzzer.SetFrequency(350,100);
+	}
+
+
+
 	state.Update();
 
 	can1_bus.SendData();

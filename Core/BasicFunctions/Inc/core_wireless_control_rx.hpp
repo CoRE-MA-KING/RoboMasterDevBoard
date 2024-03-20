@@ -56,6 +56,13 @@ public:
   bool isCommunicationError(){
 	  return communication_error;
   }
+  bool CheckESW(){
+	  if(button(13) && button(14)){
+		  return true;
+	  }else{
+		  return false;
+	  }
+  }
   void Update(){
 		const int cwcr_counter_threshold_ms=500;
 		if(parse() == true){

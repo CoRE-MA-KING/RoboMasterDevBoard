@@ -75,6 +75,10 @@ public:
 
 };
 
+enum class RunSpeed{
+	fast,
+	slow
+};
 class NromalMode: public MachineMode{
 private:
 	int loading_motor_ref_=0;
@@ -88,15 +92,16 @@ private:
 	float roller_voltage_V_=0;
 	float roller_l_target_velocity_mm_s_=0;
 	float roller_r_target_velocity_mm_s_=0;
-	float roller_target_velocity_max_mm_s_=10000;
+	float roller_target_velocity_max_mm_s_=15000;
 	const float kRollerVelocityUnderLimit_mm_s =5000;
-	const float kRollerVelocityLimit_mm_s =15000;
+	const float kRollerVelocityLimit_mm_s =20000;
 	float roller_voltage_max_V_=10.0;
 	float target_pitch_pos_=0;
 
 	MovingAverage filter_x_;
 	MovingAverage filter_y_;
 
+	RunSpeed run_speed_=RunSpeed::fast;
 	bool shoot_enable_=true;
 	int frisbee_num_;
 
