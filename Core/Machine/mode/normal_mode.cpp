@@ -83,13 +83,13 @@ void NromalMode::Update(){
 	const float kPitchPosMax=20.0;
 	pitch_servo.SetReferenceVelocity(0);
 
-	if(cwcr.button(7)==1){//up
+	if(cwcr.button(7)==1 && pitch_servo.GetPosition() < 45){//up
 		target_pitch_pos_+=kDeltaPos;
 		if(target_pitch_pos_>kPitchPosMax)target_pitch_pos_=kPitchPosMax;
 		pitch_servo.SetReferenceVelocity(5);
 
 	}
-	if(cwcr.button(5)==1){//down
+	if(cwcr.button(5)==1  && pitch_servo.GetPosition() > 0){//down
 		target_pitch_pos_-=kDeltaPos;
 		if(target_pitch_pos_<-kPitchPosMax)target_pitch_pos_=-kPitchPosMax;
 		pitch_servo.SetReferenceVelocity(-5);
@@ -189,13 +189,13 @@ void NromalMode::Update(){
 	motor3.SetCurrent_mA(target_current3);
 	motor4.SetCurrent_mA(target_current4);
 
-	printf("%d,%d,%d,%d,%d,%d\r\n",
-			(int)(pitch_servo.GetPosition()),
-			(int)(10*PitchLiner2Angle_deg(pitch_servo.GetPosition())),
-			(int)roller_enc_L.GetVelicty_mm_s(),
-			(int)roller_enc_R.GetVelicty_mm_s(),
-			(int)(roller_l_voltage_V*1000)
-			);
+//	printf("%d,%d,%d,%d,%d,%d\r\n",
+//			(int)(pitch_servo.GetPosition()),
+//			(int)(10*PitchLiner2Angle_deg(pitch_servo.GetPosition())),
+//			(int)roller_enc_L.GetVelicty_mm_s(),
+//			(int)roller_enc_R.GetVelicty_mm_s(),
+//			(int)(roller_l_voltage_V*1000)
+//			);
 
 
 //	printf("%d,%d,%d\n",(int)(v1),(int)vel1,(int)target_current1);
