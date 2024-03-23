@@ -189,14 +189,13 @@ void NromalMode::Update(){
 	motor3.SetCurrent_mA(target_current3);
 	motor4.SetCurrent_mA(target_current4);
 
-//	printf("%d,%d\r\n",
-//			(int)((int)pitch_servo.GetPosition()),
-//			(int)(10*PitchLiner2Angle_deg(pitch_servo.GetPosition()))
-//			(int)roller_enc_L.GetVelicty_mm_s(),
-//			(int)roller_l_target_velocity_mm_s_,
-//			(int)(roller_l_voltage_V*1000),
-//			(int)(roller_target_velocity_max_mm_s_)
-//	);
+	printf("%d,%d,%d,%d,%d,%d\r\n",
+			(int)(pitch_servo.GetPosition()),
+			(int)(10*PitchLiner2Angle_deg(pitch_servo.GetPosition())),
+			(int)roller_enc_L.GetVelicty_mm_s(),
+			(int)roller_enc_R.GetVelicty_mm_s(),
+			(int)(roller_l_voltage_V*1000)
+			);
 
 
 //	printf("%d,%d,%d\n",(int)(v1),(int)vel1,(int)target_current1);

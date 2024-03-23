@@ -28,6 +28,9 @@ void CommunicationErrorMode::Update(){
 	pitch_motor.SetCurrent_mA(0);
 	rollerL.SetVoltage_V(0);
 	rollerR.SetVoltage_V(0);
+
+	HAL_GPIO_WritePin(RELAY_GPIO_Port, RELAY_Pin, GPIO_PIN_RESET);
+
 }
 
 void CommunicationErrorMode::Update_10ms(){
