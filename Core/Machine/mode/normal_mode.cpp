@@ -30,6 +30,8 @@ void NromalMode::Init(){
 	loading_motor_pid.Reset();
 	roller_l_pid.Reset();
 	roller_r_pid.Reset();
+	roller_l_target_velocity_mm_s_=0;
+	roller_r_target_velocity_mm_s_=0;
 	pitch_servo.Reset();
 	filter_x_.ClearBuffer();
 	filter_y_.ClearBuffer();
